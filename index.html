@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ad Script Viewer</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 16px;
+      background: #f5f5f5;
+    }
+    header {
+      margin-bottom: 24px;
+    }
+    h1 {
+      margin: 0 0 8px;
+    }
+    .card {
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 16px 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 8px;
+    }
+    select {
+      padding: 8px 10px;
+      font-size: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      min-width: 260px;
+    }
+    ul {
+      margin-top: 20px;
+    }
+    a {
+      color: #0b5ed7;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  <script>
+    function goToBrand(select) {
+      const page = select.value;
+      if (page) {
+        window.location.href = page;
+      }
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Ad Script Viewer</h1>
+    <p>Select a brand to see its ad slots.</p>
+  </header>
+
+  <section class="card">
+    <label for="brand-select">Choose brand:</label>
+    <select id="brand-select" onchange="goToBrand(this)">
+      <option value="">-- Select a brand --</option>
+      <option value="hollywood-bets.html">Hollywood Bets</option>
+      <option value="bet9ja.html">Bet9ja</option>
+      <option value="premier-bet.html">Premier Bet</option>
+      <option value="betway.html">Betway</option>
+      <option value="cool-bet.html">Cool Bet</option>
+    </select>
+
+    <ul>
+      <li><a href="hollywood-bets.html">Hollywood Bets</a></li>
+      <li><a href="bet9ja.html">Bet9ja</a></li>
+      <li><a href="premier-bet.html">Premier Bet</a></li>
+      <li><a href="betway.html">Betway</a></li>
+      <li><a href="cool-bet.html">Cool Bet</a></li>
+    </ul>
+  </section>
+</body>
+</html>
