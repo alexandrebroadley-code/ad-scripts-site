@@ -36,13 +36,13 @@
       line-height: 0; /* no extra vertical space */
     }
 
-    /* Flex layout for slots; each card keeps its own height */
+    /* Layout for slots */
     .slot-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
       margin-bottom: 40px;
-      align-items: flex-start; /* <-- key: don't stretch all cards to same height */
+      align-items: flex-start; /* no height stretching */
     }
 
     .slot {
@@ -51,12 +51,34 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       font-size: 14px;
       overflow: hidden;
-      flex: 0 1 280px;   /* responsive width, height by content only */
+      flex: 0 0 auto;       /* width comes from our explicit width below */
+      display: inline-block;
+    }
+
+    /* Widths matched to ad formats */
+    .slot-cube {           /* adjust if cube is a different size */
+      width: 300px;
+    }
+    .slot-320x50 {
+      width: 320px;
+    }
+    .slot-320x100 {
+      width: 320px;
+    }
+    .slot-800x600 {
+      width: 800px;
+      max-width: 100%;     /* allow shrink on small screens */
+    }
+    .slot-300x600 {
+      width: 300px;
+    }
+    .slot-sticky {         /* sticky bottom banner – keep flexible if responsive */
+      width: 320px;        /* change this if your sticky unit is a different width */
       max-width: 100%;
     }
 
     .slot-header {
-      padding: 12px 14px 8px;
+      padding: 8px 10px 6px;
     }
 
     .slot-header h2 {
@@ -71,7 +93,7 @@
     }
 
     .slot-ad {
-      margin: 0 0 12px;
+      margin: 0 0 8px;
       padding: 0;
       line-height: 0; /* removes extra white space around the ad iframe */
     }
@@ -117,7 +139,7 @@
 
     <div class="slot-grid">
       <!-- SLOT 1: Cube -->
-      <div class="slot">
+      <div class="slot slot-cube">
         <div class="slot-header">
           <h2>Cube</h2>
           <p class="code-note">Paste ad script 1 here:</p>
@@ -144,144 +166,3 @@
       </div>
 
       <!-- SLOT 2: 320x50 -->
-      <div class="slot">
-        <div class="slot-header">
-          <h2>320x50</h2>
-          <p class="code-note">Paste ad script 2 here:</p>
-        </div>
-        <div class="slot-ad">
-          <div id="pg-slot-tgw5pc1bud3fq5mwz1rs68u0"></div>
-          <script data-cfasync="false" type="text/javascript">
-          /* <![CDATA[ */
-              (function (document, window) {
-              
-                  var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
-                  oCode.src = "https://js.pmx.bet/tgw5pc1bud3fq5mwz1rs68u0/tgw5pc1bud3fq5mwz1rs68u0.js?20251118="+Math.floor((new Date).getTime()/172800000);
-                  oCode.async = true; oCode.defer = true; oCode.id = "tgw5pc1bud3fq5mwz1rs68u0"; oCode.type = "text/javascript";
-                  oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
-                  try {
-                  	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
-                  } catch (e) { oPlacer = false; }
-                  oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
-                  oPlacer.parentNode.insertBefore(oCode, oPlacer);
-              })(document, window);
-          /* ]]> */
-          </script>
-        </div>
-      </div>
-
-      <!-- SLOT 3: 320x100 -->
-      <div class="slot">
-        <div class="slot-header">
-          <h2>320x100</h2>
-          <p class="code-note">Paste ad script 3 here:</p>
-        </div>
-        <div class="slot-ad">
-          <div id="pg-slot-p5bk5nqhxrxt4oxyccrkrxe2"></div>
-          <script data-cfasync="false" type="text/javascript">
-          /* <![CDATA[ */
-              (function (document, window) {
-              
-                  var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
-                  oCode.src = "https://js.pmx.bet/p5bk5nqhxrxt4oxyccrkrxe2/p5bk5nqhxrxt4oxyccrkrxe2.js?20251118="+Math.floor((new Date).getTime()/172800000);
-                  oCode.async = true; oCode.defer = true; oCode.id = "p5bk5nqhxrxt4oxyccrkrxe2"; oCode.type = "text/javascript";
-                  oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
-                  try {
-                  	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
-                  } catch (e) { oPlacer = false; }
-                  oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
-                  oPlacer.parentNode.insertBefore(oCode, oPlacer);
-              })(document, window);
-          /* ]]> */
-          </script>
-        </div>
-      </div>
-
-      <!-- SLOT 4: 800x600 -->
-      <div class="slot">
-        <div class="slot-header">
-          <h2>800x600</h2>
-          <p class="code-note">Paste ad script 4 here:</p>
-        </div>
-        <div class="slot-ad">
-          <div id="pg-slot-nikcoh7tjt8m267pbpymyk26"></div>
-          <script data-cfasync="false" type="text/javascript">
-          /* <![CDATA[ */
-              (function (document, window) {
-              
-                  var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
-                  oCode.src = "https://js.pmx.bet/nikcoh7tjt8m267pbpymyk26/nikcoh7tjt8m267pbpymyk26.js?20251118="+Math.floor((new Date).getTime()/172800000);
-                  oCode.async = true; oCode.defer = true; oCode.id = "nikcoh7tjt8m267pbpymyk26"; oCode.type = "text/javascript";
-                  oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
-                  try {
-                  	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
-                  } catch (e) { oPlacer = false; }
-                  oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
-                  oPlacer.parentNode.insertBefore(oCode, oPlacer);
-              })(document, window);
-          /* ]]> */
-          </script>
-        </div>
-      </div>
-
-      <!-- SLOT 5: 300x600 -->
-      <div class="slot">
-        <div class="slot-header">
-          <h2>300x600</h2>
-          <p class="code-note">Paste ad script 5 here:</p>
-        </div>
-        <div class="slot-ad">
-          <div id="pg-slot-hh4hdwm3syz0a5tr71v3dpti"></div>
-          <script data-cfasync="false" type="text/javascript">
-          /* <![CDATA[ */
-              (function (document, window) {
-              
-                  var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
-                  oCode.src = "https://js.pmx.bet/hh4hdwm3syz0a5tr71v3dpti/hh4hdwm3syz0a5tr71v3dpti.js?20251118="+Math.floor((new Date).getTime()/172800000);
-                  oCode.async = true; oCode.defer = true; oCode.id = "hh4hdwm3syz0a5tr71v3dpti"; oCode.type = "text/javascript";
-                  oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
-                  try {
-                  	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
-                  } catch (e) { oPlacer = false; }
-                  oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
-                  oPlacer.parentNode.insertBefore(oCode, oPlacer);
-              })(document, window);
-          /* ]]> */
-          </script>
-        </div>
-      </div>
-
-      <!-- SLOT 6: Sticky bottom banner -->
-      <div class="slot">
-        <div class="slot-header">
-          <h2>Sticky bottom banner</h2>
-          <p class="code-note">Paste ad script 6 here:</p>
-        </div>
-        <div class="slot-ad">
-          <div id="pg-slot-w9cafdylhrt0v8ml0ixq3ql7"></div>
-          <script data-cfasync="false" type="text/javascript">
-          /* <![CDATA[ */
-              (function (document, window) {
-              
-                  var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
-                  oCode.src = "https://js.pmx.bet/w9cafdylhrt0v8ml0ixq3ql7/w9cafdylhrt0v8ml0ixq3ql7.js?20251118="+Math.floor((new Date).getTime()/172800000);
-                  oCode.async = true; oCode.defer = true; oCode.id = "w9cafdylhrt0v8ml0ixq3ql7"; oCode.type = "text/javascript";
-                  oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
-                  try {
-                  	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
-                  } catch (e) { oPlacer = false; }
-                  oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
-                  oPlacer.parentNode.insertBefore(oCode, oPlacer);
-              })(document, window);
-          /* ]]> */
-          </script>
-        </div>
-      </div>
-    </div>
-
-    <footer class="site-footer">
-      © 2025 All rights reserved.
-    </footer>
-  </div>
-</body>
-</html>
