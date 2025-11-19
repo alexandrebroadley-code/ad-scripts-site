@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Coolbet – Formats and Creatives</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      margin: 0;
+      background: #f5f5f5;
+    }
+
+    /* Main content wrapper */
+    .page {
+      max-width: 1512px;
+      margin: 0 auto;
+      padding: 0 16px;
+    }
+
+    a {
+      color: #0b5ed7;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    /* Top banner must not be width-restricted */
+    .top-banner {
+      width: 100%;
+      line-height: 0;
+    }
+
+    /* Flex layout for slots */
+    .slot-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 40px;
+      align-items: flex-start;
+    }
+
+    .slot {
+      background: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      font-size: 14px;
+      overflow: visible;
+      flex: 1 1 280px;
+    }
+
+    .slot-header {
+      padding: 12px 14px 8px;
+      text-align: center; /* CENTER HEADER */
+    }
+
+    .slot-header h2 {
+      margin: 0 0 4px;
+      font-size: 15px;
+      text-align: center; /* CENTER TITLE */
+      width: 100%;
+    }
+
+    .slot-ad {
+      margin: 0 0 12px;
+      padding: 0;
+      line-height: 0;
+    }
+
+    footer {
+      padding: 110px 0;
+    }
+
+    .site-footer {
+      text-align: center;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TRUE FULL-WIDTH TOP BANNER -->
+  <div class="top-banner">
+   <div id="pg-slot-pjx8pwa95kolznopbbwf3ahu"></div>
+<script data-cfasync="false" type="text/javascript">
+/* <![CDATA[ */
+    (function (document, window) {
+    
+        var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
+        oCode.src = "https://js.pmx.bet/pjx8pwa95kolznopbbwf3ahu/pjx8pwa95kolznopbbwf3ahu.js?20251119="+Math.floor((new Date).getTime()/172800000);
+        oCode.async = true; oCode.defer = true; oCode.id = "pjx8pwa95kolznopbbwf3ahu"; oCode.type = "text/javascript";
+        oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
+        try {
+        	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
+        } catch (e) { oPlacer = false; }
+        oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
+        oPlacer.parentNode.insertBefore(oCode, oPlacer);
+    })(document, window);
+/* ]]> */
+</script>
+  </div>
+
+  <!-- PAGE CONTENT -->
+  <div class="page">
+    <p><a href="index.html">← Back to home</a></p>
+    <h1>Coolbet – Formats and Creatives</h1>
+    <p>Each box below is an ad format.</p>
+
+    <div class="slot-grid">
+
+      <!-- SLOT 1: 300x250 -->
+      <div class="slot">
+        <div class="slot-header">
+          <h2>Cube - 300x250</h2>
+        </div>
+        <div class="slot-ad">
+         <div id="pg-slot-iwwek53t3fmnhjll2aido9nu"></div>
+<script data-cfasync="false" type="text/javascript">
+/* <![CDATA[ */
+    (function (document, window) {
+    
+        var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
+        oCode.src = "https://js.pmx.bet/iwwek53t3fmnhjll2aido9nu/iwwek53t3fmnhjll2aido9nu.js?20251119="+Math.floor((new Date).getTime()/172800000);
+        oCode.async = true; oCode.defer = true; oCode.id = "iwwek53t3fmnhjll2aido9nu"; oCode.type = "text/javascript";
+        oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
+        try {
+        	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
+        } catch (e) { oPlacer = false; }
+        oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
+        oPlacer.parentNode.insertBefore(oCode, oPlacer);
+    })(document, window);
+/* ]]> */
+</script>
+        </div>
+      </div>
+
+      <!-- SLOT 2: 320x50 -->
+      <div class="slot">
+        <div class="slot-header">
+          <h2>320x50</h2>
+        </div>
+        <div class="slot-ad">
+         <div id="pg-slot-t1479u7da76ul4v31n6fyquk"></div>
+<script data-cfasync="false" type="text/javascript">
+/* <![CDATA[ */
+    (function (document, window) {
+    
+        var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
+        oCode.src = "https://js.pmx.bet/t1479u7da76ul4v31n6fyquk/t1479u7da76ul4v31n6fyquk.js?20251119="+Math.floor((new Date).getTime()/172800000);
+        oCode.async = true; oCode.defer = true; oCode.id = "t1479u7da76ul4v31n6fyquk"; oCode.type = "text/javascript";
+        oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
+        try {
+        	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
+        } catch (e) { oPlacer = false; }
+        oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
+        oPlacer.parentNode.insertBefore(oCode, oPlacer);
+    })(document, window);
+/* ]]> */
+</script>
+        </div>
+      </div>
+
+      <!-- SLOT 3: 320x100 -->
+      <div class="slot">
+        <div class="slot-header">
+          <h2>320x100</h2>
+        </div>
+        <div class="slot-ad">
+          <div id="pg-slot-sk463fttxepxdiw2hwvvytch"></div>
+<script data-cfasync="false" type="text/javascript">
+/* <![CDATA[ */
+    (function (document, window) {
+    
+        var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
+        oCode.src = "https://js.pmx.bet/sk463fttxepxdiw2hwvvytch/sk463fttxepxdiw2hwvvytch.js?20251119="+Math.floor((new Date).getTime()/172800000);
+        oCode.async = true; oCode.defer = true; oCode.id = "sk463fttxepxdiw2hwvvytch"; oCode.type = "text/javascript";
+        oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
+        try {
+        	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
+        } catch (e) { oPlacer = false; }
+        oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
+        oPlacer.parentNode.insertBefore(oCode, oPlacer);
+    })(document, window);
+/* ]]> */
+</script>
+        </div>
+      </div>
+
+      <!-- SLOT 4: 300x600 -->
+      <div class="slot">
+        <div class="slot-header">
+          <h2>300x600</h2>
+        </div>
+        <div class="slot-ad">
+        <div id="pg-slot-esg4eb9t2fgyd58akg9f3lco"></div>
+<script data-cfasync="false" type="text/javascript">
+/* <![CDATA[ */
+    (function (document, window) {
+    
+        var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
+        oCode.src = "https://js.pmx.bet/esg4eb9t2fgyd58akg9f3lco/esg4eb9t2fgyd58akg9f3lco.js?20251119="+Math.floor((new Date).getTime()/172800000);
+        oCode.async = true; oCode.defer = true; oCode.id = "esg4eb9t2fgyd58akg9f3lco"; oCode.type = "text/javascript";
+        oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
+        try {
+        	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
+        } catch (e) { oPlacer = false; }
+        oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
+        oPlacer.parentNode.insertBefore(oCode, oPlacer);
+    })(document, window);
+/* ]]> */
+</script>
+        </div>
+      </div>
+    </div>
+
+    <!-- STICKY BOTTOM BANNER (not in a card) -->
+    <div id="pg-slot-xqvqocbpyc3mjcrddd7jgznv"></div>
+<script data-cfasync="false" type="text/javascript">
+/* <![CDATA[ */
+    (function (document, window) {
+    
+        var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
+        oCode.src = "https://js.pmx.bet/xqvqocbpyc3mjcrddd7jgznv/xqvqocbpyc3mjcrddd7jgznv.js?20251119="+Math.floor((new Date).getTime()/172800000);
+        oCode.async = true; oCode.defer = true; oCode.id = "xqvqocbpyc3mjcrddd7jgznv"; oCode.type = "text/javascript";
+        oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
+        try {
+        	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
+        } catch (e) { oPlacer = false; }
+        oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
+        oPlacer.parentNode.insertBefore(oCode, oPlacer);
+    })(document, window);
+/* ]]> */
+</script>
+
+    <footer class="site-footer">
+      © 2025 Performix Media. All rights reserved.
+    </footer>
+  </div>
+</body>
+</html>
