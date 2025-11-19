@@ -36,8 +36,16 @@
       min-width: 260px;
     }
     ul {
-      margin-top: 20px;
+      margin-top: 8px;
+      margin-bottom: 16px;
       line-height: 1.7;
+      padding-left: 20px;
+    }
+    h3 {
+      margin-top: 24px;
+      margin-bottom: 4px;
+      font-size: 16px;
+      color: #333;
     }
     a {
       color: #0b5ed7;
@@ -47,15 +55,15 @@
       text-decoration: underline;
     }
   </style>
+
   <script>
     function goToBrand(select) {
       const page = select.value;
-      if (page) {
-        window.location.href = page;
-      }
+      if (page) window.location.href = page;
     }
   </script>
 </head>
+
 <body>
   <header>
     <h1>Ad Script Viewer</h1>
@@ -64,61 +72,62 @@
 
   <section class="card">
     <label for="brand-select">Choose brand:</label>
+
     <select id="brand-select" onchange="goToBrand(this)">
       <option value="">-- Select a brand --</option>
 
-      <!-- Existing -->
-      <option value="hollywood-bets.html">Hollywood Bets</option>
-      <option value="bet9ja.html">Bet9ja</option>
-      <option value="premier-bet.html">Premier Bet</option>
-      <option value="betway.html">Betway</option>
-      <option value="cool-bet.html">Cool Bet</option>
+      <!-- HOLLYWOOD BETS GROUP -->
+      <optgroup label="Hollywood Bets">
+        <option value="hollywood-bets.html">Hollywood Bets</option>
+        <!-- If you later add regional Hollywood Bets pages,
+             you can add more options here like:
+             <option value="hollywood-bets-za.html">Hollywood Bets ZA</option>
+        -->
+      </optgroup>
 
-      <!-- New Additions -->
-      <option value="stake.html">Stake</option>
-      <option value="melbet.html">Melbet</option>
+      <!-- PREMIER BET GROUP -->
+      <optgroup label="Premier Bet">
+        <option value="premier-bet.html">Premier Bet (Main)</option>
+      </optgroup>
 
-      <!-- Premier Bet Regions -->
-      <option value="premier-bet-ao.html">Premier Bet AO</option>
-      <option value="premier-bet-cm.html">Premier Bet CM</option>
-      <option value="premier-bet-drc.html">Premier Bet DRC</option>
-      <option value="premier-bet-et.html">Premier Bet ET</option>
-      <option value="premier-bet-zw.html">Premier Bet ZW</option>
-      <option value="premier-bet-ml.html">Premier Bet ML</option>
-      <option value="premier-bet-ga.html">Premier Bet GA</option>
-      <option value="premier-bet-mz.html">Premier Bet MZ</option>
-      <option value="premier-bet-mw.html">Premier Bet MW</option>
-      <option value="premier-bet-tz.html">Premier Bet TZ</option>
-      <option value="premier-bet-lr.html">Premier Bet LR</option>
-      <option value="premier-bet-sn.html">Premier Bet SN</option>
+      <optgroup label="Premier Bet – Regions">
+        <option value="premier-bet-ao.html">Premier Bet AO</option>
+        <option value="premier-bet-cm.html">Premier Bet CM</option>
+        <option value="premier-bet-drc.html">Premier Bet DRC</option>
+        <option value="premier-bet-et.html">Premier Bet ET</option>
+        <option value="premier-bet-zw.html">Premier Bet ZW</option>
+        <option value="premier-bet-ml.html">Premier Bet ML</option>
+        <option value="premier-bet-ga.html">Premier Bet GA</option>
+        <option value="premier-bet-mz.html">Premier Bet MZ</option>
+        <option value="premier-bet-mw.html">Premier Bet MW</option>
+        <option value="premier-bet-tz.html">Premier Bet TZ</option>
+        <option value="premier-bet-lr.html">Premier Bet LR</option>
+        <option value="premier-bet-sn.html">Premier Bet SN</option>
+      </optgroup>
+
+      <!-- OTHER BRANDS -->
+      <optgroup label="Other Brands">
+        <option value="bet9ja.html">Bet9ja</option>
+        <option value="betway.html">Betway</option>
+        <option value="cool-bet.html">Cool Bet</option>
+        <option value="stake.html">Stake</option>
+        <option value="melbet.html">Melbet</option>
+      </optgroup>
     </select>
 
+    <!-- CLICKABLE LISTS -->
+
+    <h3>Hollywood Bets</h3>
     <ul>
-      <!-- Existing -->
       <li><a href="hollywood-bets.html">Hollywood Bets</a></li>
-      <li><a href="bet9ja.html">Bet9ja</a></li>
-      <li><a href="premier-bet.html">Premier Bet</a></li>
-      <li><a href="betway.html">Betway</a></li>
-      <li><a href="cool-bet.html">Cool Bet</a></li>
-
-      <!-- New additions -->
-      <li><a href="stake.html">Stake</a></li>
-      <li><a href="melbet.html">Melbet</a></li>
-
-      <!-- Premier Bet regional links -->
-      <li><a href="premier-bet-ao.html">Premier Bet AO</a></li>
-      <li><a href="premier-bet-cm.html">Premier Bet CM</a></li>
-      <li><a href="premier-bet-drc.html">Premier Bet DRC</a></li>
-      <li><a href="premier-bet-et.html">Premier Bet ET</a></li>
-      <li><a href="premier-bet-zw.html">Premier Bet ZW</a></li>
-      <li><a href="premier-bet-ml.html">Premier Bet ML</a></li>
-      <li><a href="premier-bet-ga.html">Premier Bet GA</a></li>
-      <li><a href="premier-bet-mz.html">Premier Bet MZ</a></li>
-      <li><a href="premier-bet-mw.html">Premier Bet MW</a></li>
-      <li><a href="premier-bet-tz.html">Premier Bet TZ</a></li>
-      <li><a href="premier-bet-lr.html">Premier Bet LR</a></li>
-      <li><a href="premier-bet-sn.html">Premier Bet SN</a></li>
+      <!-- Add regional Hollywood Bets links here later if you have them -->
     </ul>
-  </section>
-</body>
-</html>
+
+    <h3>Premier Bet</h3>
+    <ul>
+      <li><a href="premier-bet.html">Premier Bet (Main)</a></li>
+    </ul>
+
+    <h3>Premier Bet – Regional Versions</h3>
+    <ul>
+      <li><a href="premier-b
