@@ -36,8 +36,8 @@
       line-height: 0; /* no extra vertical space */
     }
 
-    /* Flex layout for slots; each card keeps its own height
-       and its width is driven by its content (no width restriction) */
+    /* Flex layout for slots; cards share column width,
+       height still driven by content */
     .slot-grid {
       display: flex;
       flex-wrap: wrap;
@@ -51,9 +51,8 @@
       border-radius: 8px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.06);
       font-size: 14px;
-      /* no overflow or explicit width so ad can be as wide as it needs */
-      overflow: visible;
-      flex: 0 0 auto;
+      overflow: visible;      /* ads can be wider than the card if they need */
+      flex: 1 1 280px;        /* consistent column width, responsive */
     }
 
     .slot-header {
@@ -95,7 +94,6 @@
     <script data-cfasync="false" type="text/javascript">
     /* <![CDATA[ */
         (function (document, window) {
-        
             var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
             oCode.src = "https://js.pmx.bet/xagq9rqpfwphog13p7ktovwv/xagq9rqpfwphog13p7ktovwv.js?20251118="+Math.floor((new Date).getTime()/172800000);
             oCode.async = true; oCode.defer = true; oCode.id = "xagq9rqpfwphog13p7ktovwv"; oCode.type = "text/javascript";
@@ -128,7 +126,6 @@
           <script data-cfasync="false" type="text/javascript">
           /* <![CDATA[ */
               (function (document, window) {
-              
                   var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
                   oCode.src = "https://js.pmx.bet/vljesowpbu4xu17qvyxmsr1y/vljesowpbu4xu17qvyxmsr1y.js?20251118="+Math.floor((new Date).getTime()/172800000);
                   oCode.async = true; oCode.defer = true; oCode.id = "vljesowpbu4xu17qvyxmsr1y"; oCode.type = "text/javascript";
@@ -155,7 +152,6 @@
           <script data-cfasync="false" type="text/javascript">
           /* <![CDATA[ */
               (function (document, window) {
-              
                   var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
                   oCode.src = "https://js.pmx.bet/tgw5pc1bud3fq5mwz1rs68u0/tgw5pc1bud3fq5mwz1rs68u0.js?20251118="+Math.floor((new Date).getTime()/172800000);
                   oCode.async = true; oCode.defer = true; oCode.id = "tgw5pc1bud3fq5mwz1rs68u0"; oCode.type = "text/javascript";
@@ -182,7 +178,6 @@
           <script data-cfasync="false" type="text/javascript">
           /* <![CDATA[ */
               (function (document, window) {
-              
                   var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
                   oCode.src = "https://js.pmx.bet/p5bk5nqhxrxt4oxyccrkrxe2/p5bk5nqhxrxt4oxyccrkrxe2.js?20251118="+Math.floor((new Date).getTime()/172800000);
                   oCode.async = true; oCode.defer = true; oCode.id = "p5bk5nqhxrxt4oxyccrkrxe2"; oCode.type = "text/javascript";
@@ -209,7 +204,6 @@
           <script data-cfasync="false" type="text/javascript">
           /* <![CDATA[ */
               (function (document, window) {
-              
                   var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
                   oCode.src = "https://js.pmx.bet/hh4hdwm3syz0a5tr71v3dpti/hh4hdwm3syz0a5tr71v3dpti.js?20251118="+Math.floor((new Date).getTime()/172800000);
                   oCode.async = true; oCode.defer = true; oCode.id = "hh4hdwm3syz0a5tr71v3dpti"; oCode.type = "text/javascript";
@@ -224,32 +218,28 @@
           </script>
         </div>
       </div>
-
-      <!-- SLOT 5: Sticky bottom banner -->
-      
-          <div id="pg-slot-w9cafdylhrt0v8ml0ixq3ql7"></div>
-          <script data-cfasync="false" type="text/javascript">
-          /* <![CDATA[ */
-              (function (document, window) {
-              
-                  var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
-                  oCode.src = "https://js.pmx.bet/w9cafdylhrt0v8ml0ixq3ql7/w9cafdylhrt0v8ml0ixq3ql7.js?20251118="+Math.floor((new Date).getTime()/172800000);
-                  oCode.async = true; oCode.defer = true; oCode.id = "w9cafdylhrt0v8ml0ixq3ql7"; oCode.type = "text/javascript";
-                  oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
-                  try {
-                  	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
-                  } catch (e) { oPlacer = false; }
-                  oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
-                  oPlacer.parentNode.insertBefore(oCode, oPlacer);
-              })(document, window);
-          /* ]]> */
-          </script>
-        </div>
-     
     </div>
 
+    <!-- STICKY BOTTOM BANNER (NOT in a card) -->
+    <div id="pg-slot-w9cafdylhrt0v8ml0ixq3ql7"></div>
+    <script data-cfasync="false" type="text/javascript">
+    /* <![CDATA[ */
+        (function (document, window) {
+            var oPlacer, oCode = document.createElement("script"), oFrame = window.frameElement;
+            oCode.src = "https://js.pmx.bet/w9cafdylhrt0v8ml0ixq3ql7/w9cafdylhrt0v8ml0ixq3ql7.js?20251118="+Math.floor((new Date).getTime()/172800000);
+            oCode.async = true; oCode.defer = true; oCode.id = "w9cafdylhrt0v8ml0ixq3ql7"; oCode.type = "text/javascript";
+            oCode.setAttribute("data-placeholder", window.name || (oFrame && oFrame.getAttribute("id")));
+            try {
+            	oPlacer = parent.document.getElementsByTagName("script")[0] || document.getElementsByTagName("script")[0];
+            } catch (e) { oPlacer = false; }
+            oPlacer || (oPlacer = document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]);
+            oPlacer.parentNode.insertBefore(oCode, oPlacer);
+        })(document, window);
+    /* ]]> */
+    </script>
+
     <footer class="site-footer">
-      © 2025 All rights reserved.
+      © 2025 Performix Media. All rights reserved.
     </footer>
   </div>
 </body>
