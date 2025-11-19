@@ -4,54 +4,104 @@
   <meta charset="UTF-8" />
   <title>Ad Script Viewer</title>
   <style>
+    /* ---------- Global Style ---------- */
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f0f2f5;
+      margin: 0;
+      padding: 40px 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
       max-width: 900px;
-      margin: 40px auto;
-      padding: 0 16px;
-      background: #f5f5f5;
     }
-    header {
-      margin-bottom: 24px;
-    }
+
     h1 {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #222;
     }
+
+    p {
+      margin: 0 0 20px;
+      color: #555;
+      font-size: 15px;
+    }
+
+    /* ---------- Card ---------- */
     .card {
       background: #ffffff;
-      border-radius: 8px;
-      padding: 16px 20px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+      border-radius: 14px;
+      padding: 24px 28px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      backdrop-filter: blur(6px);
     }
+
+    /* ---------- Dropdown ---------- */
     label {
       font-weight: 600;
+      font-size: 15px;
       display: block;
       margin-bottom: 8px;
+      color: #222;
     }
+
     select {
-      padding: 8px 10px;
+      padding: 12px 14px;
       font-size: 15px;
-      border-radius: 6px;
+      border-radius: 10px;
       border: 1px solid #ccc;
-      min-width: 260px;
+      width: 100%;
+      background: #fff;
+      transition: 0.25s;
     }
-    ul {
-      margin-top: 8px;
-      margin-bottom: 16px;
-      line-height: 1.7;
-      padding-left: 20px;
+
+    select:hover {
+      border-color: #888;
     }
-    h3 {
-      margin-top: 24px;
-      margin-bottom: 4px;
-      font-size: 16px;
+
+    optgroup {
+      font-weight: 600;
       color: #333;
+      padding-top: 6px;
+      font-size: 14px;
     }
-    a {
+
+    option {
+      font-weight: 400;
+    }
+
+    /* ---------- Links List ---------- */
+    h3 {
+      margin-top: 32px;
+      margin-bottom: 10px;
+      font-size: 17px;
+      color: #111;
+      font-weight: 600;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0 0 10px;
+    }
+
+    ul li a {
+      display: inline-block;
+      padding: 6px 0;
       color: #0b5ed7;
       text-decoration: none;
+      font-size: 15px;
+      border-radius: 6px;
+      transition: 0.2s;
     }
-    a:hover {
+
+    ul li a:hover {
+      color: #0849a7;
       text-decoration: underline;
     }
   </style>
@@ -65,10 +115,10 @@
 </head>
 
 <body>
-  <header>
-    <h1>Ad Script Viewer</h1>
-    <p>Select a brand to see its ad slots.</p>
-  </header>
+<div class="container">
+
+  <h1>Ad Script Viewer</h1>
+  <p>Select a brand to see its ad formats and creatives.</p>
 
   <section class="card">
     <label for="brand-select">Choose brand:</label>
@@ -76,13 +126,13 @@
     <select id="brand-select" onchange="goToBrand(this)">
       <option value="">-- Select a brand --</option>
 
-      <!-- HOLLYWOOD BETS GROUP: label grey, two clickable options -->
+      <!-- HOLLYWOOD BETS -->
       <optgroup label="Hollywood Bets">
         <option value="hollywood-bets.html">Hollywood Bets</option>
         <option value="hollywood-bets-clickable.html">Hollywood Bets – Clickable</option>
       </optgroup>
 
-      <!-- PREMIER BET GROUP: label grey, all regions clickable (no "Main") -->
+      <!-- PREMIER BET -->
       <optgroup label="Premier Bet">
         <option value="premier-bet-ao.html">Premier Bet AO</option>
         <option value="premier-bet-cm.html">Premier Bet CM</option>
@@ -98,17 +148,25 @@
         <option value="premier-bet-sn.html">Premier Bet SN</option>
       </optgroup>
 
-      <!-- OTHER BRANDS -->
-      <optgroup label="Other Brands">
-        <option value="bet9ja.html">Bet9ja</option>
+      <!-- BETWAY -->
+      <optgroup label="Betway">
         <option value="betway.html">Betway</option>
-        <option value="cool-bet.html">Cool Bet</option>
-        <option value="stake.html">Stake</option>
-        <option value="melbet.html">Melbet</option>
+        <option value="betway-clickable.html">Betway – Clickable</option>
       </optgroup>
+
+      <!-- STAKE -->
+      <optgroup label="Stake">
+        <option value="stake-clickable.html">Stake – Clickable</option>
+      </optgroup>
+
+      <!-- MELBET -->
+      <optgroup label="Melbet">
+        <option value="melbet-clickable.html">Melbet – Clickable</option>
+      </optgroup>
+
     </select>
 
-    <!-- CLICKABLE LISTS -->
+    <!-- LIST SECTION BELOW -->
 
     <h3>Hollywood Bets</h3>
     <ul>
@@ -132,15 +190,23 @@
       <li><a href="premier-bet-sn.html">Premier Bet SN</a></li>
     </ul>
 
-    <h3>Other Brands</h3>
+    <h3>Betway</h3>
     <ul>
-      <li><a href="bet9ja.html">Bet9ja</a></li>
       <li><a href="betway.html">Betway</a></li>
-      <li><a href="cool-bet.html">Cool Bet</a></li>
-      <li><a href="stake.html">Stake</a></li>
-      <li><a href="melbet.html">Melbet</a></li>
+      <li><a href="betway-clickable.html">Betway – Clickable</a></li>
+    </ul>
+
+    <h3>Stake</h3>
+    <ul>
+      <li><a href="stake-clickable.html">Stake – Clickable</a></li>
+    </ul>
+
+    <h3>Melbet</h3>
+    <ul>
+      <li><a href="melbet-clickable.html">Melbet – Clickable</a></li>
     </ul>
 
   </section>
+</div>
 </body>
 </html>
