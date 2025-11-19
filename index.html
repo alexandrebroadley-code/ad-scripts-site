@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Ad Script Viewer</title>
   <style>
-    /* ---------- Global Style ---------- */
     body {
       font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       background: #f0f2f5;
@@ -32,22 +31,18 @@
       font-size: 15px;
     }
 
-    /* ---------- Card ---------- */
     .card {
       background: #ffffff;
       border-radius: 14px;
       padding: 24px 28px;
       box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      backdrop-filter: blur(6px);
     }
 
-    /* ---------- Dropdown ---------- */
     label {
       font-weight: 600;
       font-size: 15px;
       display: block;
       margin-bottom: 8px;
-      color: #222;
     }
 
     select {
@@ -75,10 +70,16 @@
       font-weight: 400;
     }
 
-    /* ---------- Links List ---------- */
+    /* ---- Two Column Layout for Lists ---- */
+    .list-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 30px;
+    }
+
     h3 {
-      margin-top: 32px;
-      margin-bottom: 10px;
+      margin: 0 0 10px;
       font-size: 17px;
       color: #111;
       font-weight: 600;
@@ -96,7 +97,6 @@
       color: #0b5ed7;
       text-decoration: none;
       font-size: 15px;
-      border-radius: 6px;
       transition: 0.2s;
     }
 
@@ -157,13 +157,11 @@
       <!-- BET9JA -->
       <optgroup label="Bet9ja">
         <option value="bet9ja.html">Bet9ja</option>
-        <option value="bet9ja-clickable.html">Bet9ja – Clickable</option>
       </optgroup>
 
       <!-- COOL BET -->
       <optgroup label="Cool Bet">
         <option value="coolbet.html">Cool Bet</option>
-        <option value="coolbet-clickable.html">Cool Bet – Clickable</option>
       </optgroup>
 
       <!-- STAKE -->
@@ -178,57 +176,65 @@
 
     </select>
 
-    <!-- LINKS BELOW -->
+    <!-- ------- TWO COLUMN LIST BELOW ------- -->
 
-    <h3>Hollywood Bets</h3>
-    <ul>
-      <li><a href="hollywood-bets.html">Hollywood Bets</a></li>
-      <li><a href="hollywood-bets-clickable.html">Hollywood Bets – Clickable</a></li>
-    </ul>
+    <div class="list-grid">
 
-    <h3>Premier Bet</h3>
-    <ul>
-      <li><a href="premier-bet-ao.html">Premier Bet AO</a></li>
-      <li><a href="premier-bet-cm.html">Premier Bet CM</a></li>
-      <li><a href="premier-bet-drc.html">Premier Bet DRC</a></li>
-      <li><a href="premier-bet-et.html">Premier Bet ET</a></li>
-      <li><a href="premier-bet-zw.html">Premier Bet ZW</a></li>
-      <li><a href="premier-bet-ml.html">Premier Bet ML</a></li>
-      <li><a href="premier-bet-ga.html">Premier Bet GA</a></li>
-      <li><a href="premier-bet-mz.html">Premier Bet MZ</a></li>
-      <li><a href="premier-bet-mw.html">Premier Bet MW</a></li>
-      <li><a href="premier-bet-tz.html">Premier Bet TZ</a></li>
-      <li><a href="premier-bet-lr.html">Premier Bet LR</a></li>
-      <li><a href="premier-bet-sn.html">Premier Bet SN</a></li>
-    </ul>
+      <div>
+        <h3>Hollywood Bets</h3>
+        <ul>
+          <li><a href="hollywood-bets.html">Hollywood Bets</a></li>
+          <li><a href="hollywood-bets-clickable.html">Hollywood Bets – Clickable</a></li>
+        </ul>
 
-    <h3>Betway</h3>
-    <ul>
-      <li><a href="betway.html">Betway</a></li>
-      <li><a href="betway-clickable.html">Betway – Clickable</a></li>
-    </ul>
+        <h3>Betway</h3>
+        <ul>
+          <li><a href="betway.html">Betway</a></li>
+          <li><a href="betway-clickable.html">Betway – Clickable</a></li>
+        </ul>
 
-    <h3>Bet9ja</h3>
-    <ul>
-      <li><a href="bet9ja.html">Bet9ja</a></li>
-      <li><a href="bet9ja-clickable.html">Bet9ja – Clickable</a></li>
-    </ul>
+        <h3>Bet9ja</h3>
+        <ul>
+          <li><a href="bet9ja.html">Bet9ja</a></li>
+        </ul>
 
-    <h3>Cool Bet</h3>
-    <ul>
-      <li><a href="coolbet.html">Cool Bet</a></li>
-      <li><a href="coolbet-clickable.html">Cool Bet – Clickable</a></li>
-    </ul>
+      </div>
 
-    <h3>Stake</h3>
-    <ul>
-      <li><a href="stake-clickable.html">Stake – Clickable</a></li>
-    </ul>
+      <div>
+        <h3>Premier Bet</h3>
+        <ul>
+          <li><a href="premier-bet-ao.html">Premier Bet AO</a></li>
+          <li><a href="premier-bet-cm.html">Premier Bet CM</a></li>
+          <li><a href="premier-bet-drc.html">Premier Bet DRC</a></li>
+          <li><a href="premier-bet-et.html">Premier Bet ET</a></li>
+          <li><a href="premier-bet-zw.html">Premier Bet ZW</a></li>
+          <li><a href="premier-bet-ml.html">Premier Bet ML</a></li>
+          <li><a href="premier-bet-ga.html">Premier Bet GA</a></li>
+          <li><a href="premier-bet-mz.html">Premier Bet MZ</a></li>
+          <li><a href="premier-bet-mw.html">Premier Bet MW</a></li>
+          <li><a href="premier-bet-tz.html">Premier Bet TZ</a></li>
+          <li><a href="premier-bet-lr.html">Premier Bet LR</a></li>
+          <li><a href="premier-bet-sn.html">Premier Bet SN</a></li>
+        </ul>
 
-    <h3>Melbet</h3>
-    <ul>
-      <li><a href="melbet-clickable.html">Melbet – Clickable</a></li>
-    </ul>
+        <h3>Cool Bet</h3>
+        <ul>
+          <li><a href="coolbet.html">Cool Bet</a></li>
+        </ul>
+
+        <h3>Stake</h3>
+        <ul>
+          <li><a href="stake-clickable.html">Stake – Clickable</a></li>
+        </ul>
+
+        <h3>Melbet</h3>
+        <ul>
+          <li><a href="melbet-clickable.html">Melbet – Clickable</a></li>
+        </ul>
+
+      </div>
+
+    </div><!-- end grid -->
 
   </section>
 </div>
