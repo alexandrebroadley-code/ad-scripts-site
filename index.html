@@ -199,15 +199,14 @@
 
   <script>
     // Base64-encoded password for light obfuscation
-    // "Performix2025!" -> "UGVyZm9ybWl4MjAyNSEh"
-    const PASSWORD_B64 = "UGVyZm9ybWl4MjAyNSEh";
+    // "Performix2025!" -> "UGVyZm9ybWl4MjAyNSE="
+    const PASSWORD_B64 = "UGVyZm9ybWl4MjAyNSE=";
 
     function getPassword() {
-      // Decode Base64 string in the browser
       try {
         return atob(PASSWORD_B64);
       } catch (e) {
-        return ""; // fail-safe
+        return "";
       }
     }
 
@@ -238,7 +237,6 @@
     }
 
     document.addEventListener("DOMContentLoaded", function () {
-      // If user already logged in during this session, skip login
       const authed = sessionStorage.getItem("performixAuth") === "1";
       if (authed) {
         showApp();
