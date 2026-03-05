@@ -1,396 +1,405 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Performix Ad Viewer</title>
-  <style>
-    body {
-      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-    }
+<meta charset="UTF-8" />
+<title>Performix Ad Viewer</title>
 
-    #login-wrapper {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+<style>
+body{
+font-family:"Inter",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#f0f2f5;
+margin:0;
+}
 
-    .login-card {
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 24px 28px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      max-width: 360px;
-      width: 100%;
-    }
+#login-wrapper{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
 
-    .login-card h1 {
-      margin: 0 0 8px;
-      font-size: 22px;
-      font-weight: 700;
-      color: #222;
-    }
+.login-card{
+background:#ffffff;
+border-radius:14px;
+padding:24px 28px;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
+max-width:360px;
+width:100%;
+}
 
-    .login-card p {
-      margin: 0 0 18px;
-      color: #555;
-      font-size: 14px;
-    }
+.login-card h1{
+margin:0 0 8px;
+font-size:22px;
+font-weight:700;
+color:#222;
+}
 
-    .login-card label {
-      font-weight: 600;
-      font-size: 14px;
-      display: block;
-      margin-bottom: 6px;
-    }
+.login-card p{
+margin:0 0 18px;
+color:#555;
+font-size:14px;
+}
 
-    .login-card input[type="password"] {
-      width: 100%;
-      padding: 10px 12px;
-      font-size: 14px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      margin-bottom: 10px;
-      box-sizing: border-box;
-    }
+.login-card label{
+font-weight:600;
+font-size:14px;
+display:block;
+margin-bottom:6px;
+}
 
-    .login-card button {
-      width: 100%;
-      padding: 10px 12px;
-      font-size: 15px;
-      border-radius: 8px;
-      border: none;
-      background: #0b5ed7;
-      color: #fff;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s ease;
-    }
+.login-card input[type="password"]{
+width:100%;
+padding:10px 12px;
+font-size:14px;
+border-radius:8px;
+border:1px solid #ccc;
+margin-bottom:10px;
+box-sizing:border-box;
+}
 
-    .login-card button:hover {
-      background: #0849a7;
-    }
+.login-card button{
+width:100%;
+padding:10px 12px;
+font-size:15px;
+border-radius:8px;
+border:none;
+background:#0b5ed7;
+color:#fff;
+font-weight:600;
+cursor:pointer;
+transition:background .2s ease;
+}
 
-    .login-error {
-      color: #c0392b;
-      font-size: 13px;
-      margin-top: 4px;
-      min-height: 18px;
-    }
+.login-card button:hover{
+background:#0849a7;
+}
 
-    #app {
-      display: none;
-    }
+.login-error{
+color:#c0392b;
+font-size:13px;
+margin-top:4px;
+min-height:18px;
+}
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
+#app{
+display:none;
+}
 
-    h1 {
-      margin: 0 0 10px;
-      font-size: 28px;
-      font-weight: 700;
-      color: #222;
-    }
+.container{
+width:100%;
+max-width:900px;
+margin:40px auto;
+padding:0 20px;
+}
 
-    p {
-      margin: 0 0 20px;
-      color: #555;
-      font-size: 15px;
-    }
+h1{
+margin:0 0 10px;
+font-size:28px;
+font-weight:700;
+color:#222;
+}
 
-    .card {
-      background: #ffffff;
-      border-radius: 14px;
-      padding: 24px 28px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-    }
+p{
+margin:0 0 20px;
+color:#555;
+font-size:15px;
+}
 
-    label {
-      font-weight: 600;
-      font-size: 15px;
-      display: block;
-      margin-bottom: 8px;
-    }
+.card{
+background:#ffffff;
+border-radius:14px;
+padding:24px 28px;
+box-shadow:0 4px 14px rgba(0,0,0,0.08);
+}
 
-    select {
-      padding: 12px 14px;
-      font-size: 15px;
-      border-radius: 10px;
-      border: 1px solid #ccc;
-      width: 100%;
-      background: #fff;
-      transition: 0.25s;
-    }
+label{
+font-weight:600;
+font-size:15px;
+display:block;
+margin-bottom:8px;
+}
 
-    select:hover {
-      border-color: #888;
-    }
+select{
+padding:12px 14px;
+font-size:15px;
+border-radius:10px;
+border:1px solid #ccc;
+width:100%;
+background:#fff;
+transition:.25s;
+}
 
-    optgroup {
-      font-weight: 600;
-      color: #333;
-      padding-top: 6px;
-      font-size: 14px;
-    }
+select:hover{
+border-color:#888;
+}
 
-    option {
-      font-weight: 400;
-    }
+optgroup{
+font-weight:600;
+color:#333;
+padding-top:6px;
+font-size:14px;
+}
 
-    .brand-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-top: 28px;
-    }
+option{
+font-weight:400;
+}
 
-    .brand-card {
-      background: #f8f9fb;
-      border-radius: 12px;
-      padding: 14px 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-    }
+.brand-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-top:28px;
+}
 
-    .brand-card h3 {
-      margin: 0 0 8px;
-      font-size: 16px;
-      color: #111;
-      font-weight: 600;
-    }
+.brand-card{
+background:#f8f9fb;
+border-radius:12px;
+padding:14px 16px;
+box-shadow:0 2px 8px rgba(0,0,0,0.04);
+}
 
-    .brand-card ul {
-      list-style: none;
-      padding-left: 0;
-      margin: 0;
-    }
+.brand-card h3{
+margin:0 0 8px;
+font-size:16px;
+color:#111;
+font-weight:600;
+}
 
-    .brand-card li a {
-      display: inline-block;
-      padding: 4px 0;
-      color: #0b5ed7;
-      text-decoration: none;
-      font-size: 14px;
-      transition: 0.2s;
-    }
+.brand-card ul{
+list-style:none;
+padding-left:0;
+margin:0;
+}
 
-    .brand-card li a:hover {
-      color: #0849a7;
-      text-decoration: underline;
-    }
+.brand-card li a{
+display:inline-block;
+padding:4px 0;
+color:#0b5ed7;
+text-decoration:none;
+font-size:14px;
+transition:.2s;
+}
 
-    @media (max-width: 700px) {
-      .brand-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+.brand-card li a:hover{
+color:#0849a7;
+text-decoration:underline;
+}
 
-  <script>
-    const PASSWORD_B64 = "UGVyZm9ybWl4MjAyNSE=";
+@media(max-width:700px){
+.brand-grid{
+grid-template-columns:1fr;
+}
+}
+</style>
 
-    function getPassword() {
-      try {
-        return atob(PASSWORD_B64);
-      } catch (e) {
-        return "";
-      }
-    }
+<script>
 
-    function showApp() {
-      document.getElementById("login-wrapper").style.display = "none";
-      document.getElementById("app").style.display = "block";
-    }
+const PASSWORD_B64="UGVyZm9ybWl4MjAyNSE=";
 
-    function handleLogin(event) {
-      event.preventDefault();
-      const value = document.getElementById("password-input").value.trim();
-      const errorBox = document.getElementById("login-error");
+function getPassword(){
+try{
+return atob(PASSWORD_B64);
+}catch(e){
+return"";
+}
+}
 
-      if (value === getPassword()) {
-        sessionStorage.setItem("performixAuth", "1");
-        showApp();
-      } else {
-        errorBox.textContent = "Incorrect password. Please try again.";
-      }
-    }
+function showApp(){
+document.getElementById("login-wrapper").style.display="none";
+document.getElementById("app").style.display="block";
+}
 
-    function goToBrand(select) {
-      if (select.value) window.location.href = select.value;
-    }
+function handleLogin(event){
+event.preventDefault();
+const value=document.getElementById("password-input").value.trim();
+const errorBox=document.getElementById("login-error");
 
-    document.addEventListener("DOMContentLoaded", function () {
-      if (sessionStorage.getItem("performixAuth") === "1") {
-        showApp();
-      }
-    });
-  </script>
+if(value===getPassword()){
+sessionStorage.setItem("performixAuth","1");
+showApp();
+}else{
+errorBox.textContent="Incorrect password. Please try again.";
+}
+}
+
+function goToBrand(select){
+if(select.value)window.location.href=select.value;
+}
+
+document.addEventListener("DOMContentLoaded",function(){
+if(sessionStorage.getItem("performixAuth")==="1"){
+showApp();
+}
+});
+
+</script>
 </head>
 
 <body>
 
 <div id="login-wrapper">
-  <form class="login-card" onsubmit="handleLogin(event)">
-    <h1>Performix Access</h1>
-    <p>This area is restricted. Please enter the password to continue.</p>
+<form class="login-card" onsubmit="handleLogin(event)">
+<h1>Performix Access</h1>
+<p>This area is restricted. Please enter the password to continue.</p>
 
-    <label for="password-input">Password</label>
-    <input id="password-input" type="password" autocomplete="current-password" />
-    <div id="login-error" class="login-error"></div>
+<label for="password-input">Password</label>
+<input id="password-input" type="password" autocomplete="current-password"/>
 
-    <button type="submit">Enter</button>
-  </form>
+<div id="login-error" class="login-error"></div>
+
+<button type="submit">Enter</button>
+</form>
 </div>
 
 <div id="app">
-  <div class="container">
-    <h1>Performix Ad Viewer</h1>
-    <p>Select a brand to see its ad formats and creatives.</p>
+<div class="container">
 
-    <section class="card">
-      <label for="brand-select">Choose brand:</label>
+<h1>Performix Ad Viewer</h1>
+<p>Select a brand to see its ad formats and creatives.</p>
 
-      <select id="brand-select" onchange="goToBrand(this)">
-        <option value="">-- Select a brand --</option>
+<section class="card">
 
-        <optgroup label="Hollywood Bets">
-          <option value="hollywood-bets.html">Hollywood Bets</option>
-          <option value="hollywood-bets-clickable.html">Hollywood Bets – Clickable</option>
-        </optgroup>
+<label for="brand-select">Choose brand:</label>
 
-        <optgroup label="Premier Bet">
-          <option value="premier-bet-ao.html">Premier Bet AO</option>
-          <option value="premier-bet-cm.html">Premier Bet CM</option>
-          <option value="premier-bet-drc.html">Premier Bet DRC</option>
-          <option value="premier-bet-et.html">Premier Bet ET</option>
-          <option value="premier-bet-zw.html">Premier Bet ZW</option>
-          <option value="premier-bet-ml.html">Premier Bet ML</option>
-          <option value="premier-bet-ga.html">Premier Bet GA</option>
-          <option value="premier-bet-mz.html">Premier Bet MZ</option>
-          <option value="premier-bet-mw.html">Premier Bet MW</option>
-          <option value="premier-bet-tz.html">Premier Bet TZ</option>
-          <option value="premier-bet-lr.html">Premier Bet LR</option>
-          <option value="premier-bet-sn.html">Premier Bet SN</option>
-        </optgroup>
+<select id="brand-select" onchange="goToBrand(this)">
 
-        <optgroup label="Betway">
-          <option value="betway.html">Betway</option>
-          <option value="betway-clickable.html">Betway – Clickable</option>
-        </optgroup>
+<option value="">-- Select a brand --</option>
 
-        <optgroup label="1xBet">
-          <option value="1xbet.html">1xBet</option>
-        </optgroup>
+<optgroup label="Hollywood Bets">
+<option value="hollywood-bets.html">Hollywood Bets</option>
+<option value="hollywood-bets-clickable.html">Hollywood Bets – Clickable</option>
+</optgroup>
 
-        <optgroup label="Bet9ja">
-          <option value="bet9ja.html">Bet9ja</option>
-        </optgroup>
+<optgroup label="Premier Bet">
+<option value="premier-bet-ao.html">Premier Bet AO</option>
+<option value="premier-bet-cm.html">Premier Bet CM</option>
+<option value="premier-bet-drc.html">Premier Bet DRC</option>
+<option value="premier-bet-et.html">Premier Bet ET</option>
+<option value="premier-bet-zw.html">Premier Bet ZW</option>
+<option value="premier-bet-ml.html">Premier Bet ML</option>
+<option value="premier-bet-ga.html">Premier Bet GA</option>
+<option value="premier-bet-mz.html">Premier Bet MZ</option>
+<option value="premier-bet-mw.html">Premier Bet MW</option>
+<option value="premier-bet-tz.html">Premier Bet TZ</option>
+<option value="premier-bet-lr.html">Premier Bet LR</option>
+<option value="premier-bet-sn.html">Premier Bet SN</option>
+</optgroup>
 
-        <optgroup label="BetKing">
-          <option value="betking.html">BetKing</option>
-        </optgroup>
+<optgroup label="Betway">
+<option value="betway.html">Betway</option>
+<option value="betway-clickable.html">Betway – Clickable</option>
+</optgroup>
 
-        <optgroup label="Cool Bet">
-          <option value="cool-bet.html">Cool Bet</option>
-        </optgroup>
+<optgroup label="1xBet">
+<option value="1xbet.html">1xBet</option>
+</optgroup>
 
-        <optgroup label="Stake">
-          <option value="stake-clickable.html">Stake – Clickable</option>
-        </optgroup>
+<optgroup label="Bet9ja">
+<option value="bet9ja.html">Bet9ja</option>
+<option value="bet9ja-click.html">Bet9ja – Clickable</option>
+</optgroup>
 
-        <optgroup label="Melbet">
-          <option value="melbet-clickable.html">Melbet – Clickable</option>
-        </optgroup>
-      </select>
+<optgroup label="BetKing">
+<option value="betking.html">BetKing</option>
+</optgroup>
 
-      <div class="brand-grid">
+<optgroup label="Cool Bet">
+<option value="cool-bet.html">Cool Bet</option>
+</optgroup>
 
-        <div class="brand-card">
-          <h3>Hollywood Bets</h3>
-          <ul>
-            <li><a href="hollywood-bets.html">Hollywood Bets</a></li>
-            <li><a href="hollywood-bets-clickable.html">Hollywood Bets – Clickable</a></li>
-          </ul>
-        </div>
+<optgroup label="Stake">
+<option value="stake-clickable.html">Stake – Clickable</option>
+</optgroup>
 
-        <div class="brand-card">
-          <h3>Premier Bet</h3>
-          <ul>
-            <li><a href="premier-bet-ao.html">Premier Bet AO</a></li>
-            <li><a href="premier-bet-cm.html">Premier Bet CM</a></li>
-            <li><a href="premier-bet-drc.html">Premier Bet DRC</a></li>
-            <li><a href="premier-bet-et.html">Premier Bet ET</a></li>
-            <li><a href="premier-bet-zw.html">Premier Bet ZW</a></li>
-            <li><a href="premier-bet-ml.html">Premier Bet ML</a></li>
-            <li><a href="premier-bet-ga.html">Premier Bet GA</a></li>
-            <li><a href="premier-bet-mz.html">Premier Bet MZ</a></li>
-            <li><a href="premier-bet-mw.html">Premier Bet MW</a></li>
-            <li><a href="premier-bet-tz.html">Premier Bet TZ</a></li>
-            <li><a href="premier-bet-lr.html">Premier Bet LR</a></li>
-            <li><a href="premier-bet-sn.html">Premier Bet SN</a></li>
-          </ul>
-        </div>
+<optgroup label="Melbet">
+<option value="melbet-clickable.html">Melbet – Clickable</option>
+</optgroup>
 
-        <div class="brand-card">
-          <h3>Betway</h3>
-          <ul>
-            <li><a href="betway.html">Betway</a></li>
-            <li><a href="betway-clickable.html">Betway – Clickable</a></li>
-          </ul>
-        </div>
+</select>
 
-        <div class="brand-card">
-          <h3>1xBet</h3>
-          <ul>
-            <li><a href="1xbet.html">1xBet</a></li>
-          </ul>
-        </div>
+<div class="brand-grid">
 
-        <div class="brand-card">
-          <h3>Bet9ja</h3>
-          <ul>
-            <li><a href="bet9ja.html">Bet9ja</a></li>
-          </ul>
-        </div>
+<div class="brand-card">
+<h3>Hollywood Bets</h3>
+<ul>
+<li><a href="hollywood-bets.html">Hollywood Bets</a></li>
+<li><a href="hollywood-bets-clickable.html">Hollywood Bets – Clickable</a></li>
+</ul>
+</div>
 
-        <div class="brand-card">
-          <h3>BetKing</h3>
-          <ul>
-            <li><a href="betking.html">BetKing</a></li>
-          </ul>
-        </div>
+<div class="brand-card">
+<h3>Premier Bet</h3>
+<ul>
+<li><a href="premier-bet-ao.html">Premier Bet AO</a></li>
+<li><a href="premier-bet-cm.html">Premier Bet CM</a></li>
+<li><a href="premier-bet-drc.html">Premier Bet DRC</a></li>
+<li><a href="premier-bet-et.html">Premier Bet ET</a></li>
+<li><a href="premier-bet-zw.html">Premier Bet ZW</a></li>
+<li><a href="premier-bet-ml.html">Premier Bet ML</a></li>
+<li><a href="premier-bet-ga.html">Premier Bet GA</a></li>
+<li><a href="premier-bet-mz.html">Premier Bet MZ</a></li>
+<li><a href="premier-bet-mw.html">Premier Bet MW</a></li>
+<li><a href="premier-bet-tz.html">Premier Bet TZ</a></li>
+<li><a href="premier-bet-lr.html">Premier Bet LR</a></li>
+<li><a href="premier-bet-sn.html">Premier Bet SN</a></li>
+</ul>
+</div>
 
-        <div class="brand-card">
-          <h3>Cool Bet</h3>
-          <ul>
-            <li><a href="cool-bet.html">Cool Bet</a></li>
-          </ul>
-        </div>
+<div class="brand-card">
+<h3>Betway</h3>
+<ul>
+<li><a href="betway.html">Betway</a></li>
+<li><a href="betway-clickable.html">Betway – Clickable</a></li>
+</ul>
+</div>
 
-        <div class="brand-card">
-          <h3>Stake</h3>
-          <ul>
-            <li><a href="stake-clickable.html">Stake – Clickable</a></li>
-          </ul>
-        </div>
+<div class="brand-card">
+<h3>1xBet</h3>
+<ul>
+<li><a href="1xbet.html">1xBet</a></li>
+</ul>
+</div>
 
-        <div class="brand-card">
-          <h3>Melbet</h3>
-          <ul>
-            <li><a href="melbet-clickable.html">Melbet – Clickable</a></li>
-          </ul>
-        </div>
+<div class="brand-card">
+<h3>Bet9ja</h3>
+<ul>
+<li><a href="bet9ja.html">Bet9ja</a></li>
+<li><a href="bet9ja-click.html">Bet9ja – Clickable</a></li>
+</ul>
+</div>
 
-      </div>
+<div class="brand-card">
+<h3>BetKing</h3>
+<ul>
+<li><a href="betking.html">BetKing</a></li>
+</ul>
+</div>
 
-    </section>
-  </div>
+<div class="brand-card">
+<h3>Cool Bet</h3>
+<ul>
+<li><a href="cool-bet.html">Cool Bet</a></li>
+</ul>
+</div>
+
+<div class="brand-card">
+<h3>Stake</h3>
+<ul>
+<li><a href="stake-clickable.html">Stake – Clickable</a></li>
+</ul>
+</div>
+
+<div class="brand-card">
+<h3>Melbet</h3>
+<ul>
+<li><a href="melbet-clickable.html">Melbet – Clickable</a></li>
+</ul>
+</div>
+
+</div>
+</section>
+</div>
 </div>
 
 </body>
