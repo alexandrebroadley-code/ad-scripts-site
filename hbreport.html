@@ -1,0 +1,455 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hollywoodbets — Affiliate Performance Report</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Georgia, serif; background: #f4f3f0; color: #1a1a1a; }
+  .page { max-width: 960px; margin: 0 auto; padding: 48px 40px; }
+
+  .header { border-bottom: 2px solid #1a1a1a; padding-bottom: 24px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .brand { font-size: 12px; font-family: Arial, sans-serif; color: #999; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  h1 { font-size: 30px; font-weight: normal; letter-spacing: -0.5px; }
+  .date { text-align: right; font-size: 13px; font-family: Arial, sans-serif; color: #999; line-height: 1.8; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 48px; }
+  .kpi { background: #fff; border: 1px solid #e0deda; border-radius: 6px; padding: 18px; }
+  .kpi.dark { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .kpi .label { font-size: 11px; font-family: Arial, sans-serif; color: #aaa; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .kpi.dark .label { color: #777; }
+  .kpi .value { font-size: 26px; letter-spacing: -1px; line-height: 1.1; }
+  .kpi .sub { font-size: 11px; font-family: Arial, sans-serif; color: #aaa; margin-top: 5px; }
+  .kpi.dark .sub { color: #666; }
+
+  .section { margin-bottom: 52px; }
+  .section-label { font-size: 11px; font-family: Arial, sans-serif; color: #bbb; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+  h2 { font-size: 20px; font-weight: normal; margin-bottom: 14px; letter-spacing: -0.3px; }
+  .insight { font-size: 13px; font-family: Arial, sans-serif; color: #555; line-height: 1.8; margin-bottom: 20px; padding-left: 14px; border-left: 3px solid #ddd; }
+  .insight strong { color: #1a1a1a; }
+
+  .chart-box { background: #fff; border: 1px solid #e0deda; border-radius: 8px; padding: 26px; margin-bottom: 20px; }
+  .chart-title { font-size: 13px; font-family: Arial, sans-serif; font-weight: bold; color: #222; margin-bottom: 3px; }
+  .chart-sub { font-size: 12px; font-family: Arial, sans-serif; color: #bbb; margin-bottom: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 12px; font-family: Arial, sans-serif; color: #666; margin-bottom: 12px; }
+  .leg { display: flex; align-items: center; gap: 7px; }
+  .sw { width: 12px; height: 12px; border-radius: 2px; }
+  .sw-line { width: 22px; height: 3px; border-radius: 1px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 13px; }
+  th { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e0deda; padding: 8px 10px; font-weight: normal; text-align: right; }
+  th:first-child { text-align: left; }
+  td { padding: 10px 10px; border-bottom: 1px solid #f0eeea; color: #444; text-align: right; }
+  td:first-child { text-align: left; font-weight: bold; color: #1a1a1a; }
+  tr:last-child td { border-bottom: none; background: #f9f8f6; font-family: Arial, sans-serif; font-size: 12px; }
+  .pos { color: #1a7a40; }
+  .neg { color: #c03020; }
+
+  .source-note { font-size: 11px; font-family: Arial, sans-serif; color: #bbb; margin-top: 10px; }
+  .footer { border-top: 1px solid #e0deda; padding-top: 20px; margin-top: 48px; font-size: 11px; font-family: Arial, sans-serif; color: #ccc; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div>
+      <div class="brand">Casinopedia · South Africa</div>
+      <h1>Hollywoodbets Affiliate Report</h1>
+    </div>
+    <div class="date">
+      January 2025 – April 2026
+    </div>
+  </div>
+
+  <!-- KPIs — April 1-19 from player report -->
+  <div class="kpi-grid">
+    <div class="kpi dark">
+      <div class="label">Commission earned</div>
+      <div class="value">R438,603</div>
+      <div class="sub">Apr 1–19 · affiliate report</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Total deposits</div>
+      <div class="value">R9.13M</div>
+      <div class="sub">Apr 1–19</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Active players</div>
+      <div class="value">8,592</div>
+      <div class="sub">unique players Apr 1–19</div>
+    </div>
+    <div class="kpi">
+      <div class="label">New registrations</div>
+      <div class="value">~470</div>
+      <div class="sub">projected full month</div>
+    </div>
+  </div>
+
+  <!-- Section 1: Registrations -->
+  <div class="section">
+    <div class="section-label">01</div>
+    <h2>Registration decline</h2>
+    <p class="insight">New monthly registrations peaked at <strong>6,118 in March 2025</strong> and have fallen to an estimated <strong>~470 in April 2026</strong> — a 92% decline over 13 months. The drop has been steady and consistent across every tracker.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Monthly new registrations — Hollywoodbets SA</div>
+      <div class="chart-sub">Jan 2025 – Apr 2026 (Apr projected from first 19 days)</div>
+      <div style="position:relative;height:300px;">
+        <canvas id="regChart" role="img" aria-label="Bar chart showing monthly registrations declining from 6118 in March 2025 to approximately 470 in April 2026"></canvas>
+      </div>
+      <p class="source-note">Source: Hollywoodbets affiliate player reports · tracker-level registration data</p>
+    </div>
+  </div>
+
+  <!-- Section 2: Spend -->
+  <div class="section">
+    <div class="section-label">02</div>
+    <h2>Ad spend &amp; cost efficiency</h2>
+    <p class="insight">Ad spend fell from a high of <strong>$48,563 in June 2025</strong> to <strong>$10,845 in February 2026</strong>. Registrations followed spend down, however the cost per registration also increased — rising from <strong>$10 in May 2025</strong> to <strong>$28 in October 2025</strong> — indicating the spend reduction is not the only factor at play.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Ad spend vs registrations</div>
+      <div class="chart-sub">May 2025 – Mar 2026</div>
+      <div class="legend">
+        <div class="leg"><div class="sw" style="background:#3a7abf;opacity:0.8;"></div>Ad spend (left axis, $)</div>
+        <div class="leg"><div class="sw-line" style="background:#c03020;"></div>Registrations (right axis)</div>
+      </div>
+      <div style="position:relative;height:280px;">
+        <canvas id="spendChart" role="img" aria-label="Dual axis chart showing ad spend and registrations both declining from mid 2025"></canvas>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="chart-box">
+        <div class="chart-title">Cost per registration</div>
+        <div class="chart-sub">Hollywood SA monthly</div>
+        <div style="position:relative;height:200px;">
+          <canvas id="cprChart" role="img" aria-label="Line chart showing cost per registration fluctuating between $10 and $28"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Registrations vs FTDs</div>
+        <div class="chart-sub">First-time depositors as share of new regs</div>
+        <div class="legend">
+          <div class="leg"><div class="sw" style="background:#3a7abf;opacity:0.8;"></div>Regs</div>
+          <div class="leg"><div class="sw" style="background:#1a7a40;opacity:0.8;"></div>FTDs</div>
+        </div>
+        <div style="position:relative;height:168px;">
+          <canvas id="ftdChart" role="img" aria-label="Grouped bar chart showing registrations and first time depositors declining together"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 3: Revenue & GP -->
+  <div class="section">
+    <div class="section-label">03</div>
+    <h2>Revenue &amp; profitability</h2>
+    <p class="insight">Despite falling registrations, revenue from Hollywoodbets has remained robust — peaking at <strong>$46,155 in December 2025</strong>. The existing player base is highly active and valuable. Gross profit turned consistently positive from September 2025 onwards, reaching <strong>$34,804 in December</strong>.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Revenue &amp; gross profit — Hollywoodbets SA</div>
+      <div class="chart-sub">May 2025 – Mar 2026</div>
+      <div class="legend">
+        <div class="leg"><div class="sw" style="background:#3a7abf;opacity:0.55;"></div>Revenue</div>
+        <div class="leg"><div class="sw-line" style="background:#1a7a40;"></div>Gross profit (positive)</div>
+        <div class="leg"><div class="sw-line" style="background:#c03020;"></div>Gross profit (negative)</div>
+      </div>
+      <div style="position:relative;height:280px;">
+        <canvas id="gpChart" role="img" aria-label="Combined chart with revenue bars and gross profit line, showing profit turning positive from September 2025"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 4: Player base -->
+  <div class="section">
+    <div class="section-label">04</div>
+    <h2>Player base — April 2026</h2>
+    <p class="insight">The April 2026 player report shows <strong>8,592 unique players</strong> generating <strong>R9.13M in deposits</strong> and <strong>R438,603 in commission</strong> in the first 19 days alone. The player base is predominantly returning players — new sign-ups account for a small fraction of both activity and revenue.</p>
+
+    <div class="two-col">
+      <div class="chart-box">
+        <div class="chart-title">Active players: new vs returning</div>
+        <div class="chart-sub">April 1–19 2026</div>
+        <div style="position:relative;height:210px;">
+          <canvas id="playerChart" role="img" aria-label="Donut chart showing the vast majority of active players are returning"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Deposits: new vs returning</div>
+        <div class="chart-sub">April 1–19 2026</div>
+        <div style="position:relative;height:210px;">
+          <canvas id="depChart" role="img" aria-label="Donut chart showing over 97 percent of deposits from returning players"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 5: Returning player growth -->
+  <div class="section">
+    <div class="section-label">05</div>
+    <h2>Returning player growth</h2>
+    <p class="insight">Despite declining new registrations, the returning player base has grown from <strong>7,100 in August 2025</strong> to <strong>8,296 in April 2026</strong> — a total growth of <strong>+16.8%</strong>. The standout jump was December 2025 to March 2026 (<strong>+18.0%</strong>), showing the retained player pool is expanding even as new acquisition slows.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Returning players per month</div>
+      <div class="chart-sub">Aug 2025 – Apr 2026 · % change shown above each bar</div>
+      <div style="position:relative;height:300px;">
+        <canvas id="retChart" role="img" aria-label="Bar chart showing returning players growing from 7100 in August 2025 to 8296 in April 2026 with month on month percentage changes"></canvas>
+      </div>
+      <p class="source-note">* Apr 2026 covers 1–19 only &nbsp;·&nbsp; Jan &amp; Feb 2026 excluded (no player-level data available)</p>
+    </div>
+  </div>
+
+  <!-- Section 6: Monthly table -->
+  <div class="section">
+    <div class="section-label">06</div>
+    <h2>Full data table</h2>
+    <div class="chart-box">
+      <div class="chart-title">Hollywoodbets SA — month by month</div>
+      <div class="chart-sub" style="margin-bottom:18px;">May 2025 – Mar 2026 · Source: Performix Media forecast</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Ad Spend</th>
+            <th>Registrations</th>
+            <th>FTDs</th>
+            <th>Revenue</th>
+            <th>Gross Profit</th>
+            <th>Cost / Reg</th>
+            <th>FTD Rate</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Casinopedia — Confidential</span>
+    <span>Sources: Hollywoodbets affiliate player report (Apr 1–19 2026) · Performix Media forecast · Tracker-level data</span>
+  </div>
+
+</div>
+<script>
+const months = ['May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Jan 26','Feb 26','Mar 26'];
+const spend =  [36264,48563,35999,39162,20047,30837,16483,11351,22206,10845,13141];
+const regs =   [3722, 2723, 3073, 2663, 1375, 1088, 953,  804,  1081, 843,  600];
+const ftds =   [1892, 1318, 1556, 1345, 878,  756,  681,  650,  644,  613,  614];
+const rev =    [23123,19785,36366,29915,42007,37208,35124,46155,21992,22353,32931];
+const gp =     [-13141,-28778,367,-9247,21960,6371,18641,34804,-214,11508,19790];
+const cpr =    [10,18,12,15,15,28,17,14,21,13,22];
+
+// Registration chart — full history
+new Chart(document.getElementById('regChart'),{
+  type:'bar',
+  data:{
+    labels:['Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Feb 26','Mar 26','Apr 26*'],
+    datasets:[{
+      data:[4053,5436,6118,5057,2908,2089,2404,2663,1406,1088,953,804,213,620,470],
+      backgroundColor:['#3a7abf','#3a7abf','#3a7abf','#3a7abf','#3a7abf','#3a7abf','#3a7abf','#3a7abf','#3a7abf','#3a7abf','#3a7abf','#3a7abf','#999','#999','rgba(201,64,64,0.65)'],
+      borderRadius:3,borderWidth:0
+    }]
+  },
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y.toLocaleString()+' registrations'},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},
+    scales:{
+      x:{ticks:{autoSkip:false,maxRotation:45,font:{size:11,family:'Arial'},color:'#888'},grid:{display:false}},
+      y:{beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>v.toLocaleString()},grid:{color:'rgba(0,0,0,0.05)'}}
+    }
+  }
+});
+
+// Spend vs regs
+new Chart(document.getElementById('spendChart'),{
+  data:{labels:months,datasets:[
+    {type:'bar',data:spend,backgroundColor:'rgba(58,122,191,0.65)',borderRadius:3,yAxisID:'yS',order:2,label:'Spend'},
+    {type:'line',data:regs,borderColor:'#c03020',backgroundColor:'#c03020',pointRadius:4,tension:0.35,borderWidth:2.5,yAxisID:'yR',order:1,label:'Regs',spanGaps:false}
+  ]},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},
+    scales:{
+      x:{ticks:{autoSkip:false,maxRotation:45,font:{size:11,family:'Arial'},color:'#888'},grid:{display:false}},
+      yS:{position:'left',beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#3a7abf',callback:v=>'$'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(0,0,0,0.04)'},title:{display:true,text:'Ad Spend',color:'#3a7abf',font:{size:11,family:'Arial'}}},
+      yR:{position:'right',beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#c03020',callback:v=>v.toLocaleString()},grid:{display:false},title:{display:true,text:'Registrations',color:'#c03020',font:{size:11,family:'Arial'}}}
+    }
+  }
+});
+
+// CPR chart - all months now have valid data
+const cprMonths = months;
+const cprData   = cpr;
+new Chart(document.getElementById('cprChart'),{
+  type:'line',
+  data:{labels:cprMonths,datasets:[{
+    data:cprData,borderColor:'#7a3abf',backgroundColor:'rgba(122,58,191,0.08)',
+    pointBackgroundColor:'#7a3abf',
+    pointRadius:4,
+    tension:0.35,borderWidth:2,fill:true
+  }]},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y?` $${c.parsed.y} per reg`:'No data'},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},
+    scales:{
+      x:{ticks:{autoSkip:false,maxRotation:45,font:{size:10,family:'Arial'},color:'#888'},grid:{display:false}},
+      y:{beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>'$'+v},grid:{color:'rgba(0,0,0,0.05)'}}
+    }
+  }
+});
+
+// FTD
+new Chart(document.getElementById('ftdChart'),{
+  type:'bar',
+  data:{labels:months,datasets:[
+    {data:regs,backgroundColor:'rgba(58,122,191,0.7)',borderRadius:2,borderWidth:0,label:'Regs'},
+    {data:ftds,backgroundColor:'rgba(26,122,64,0.75)',borderRadius:2,borderWidth:0,label:'FTDs'}
+  ]},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},
+    scales:{
+      x:{ticks:{autoSkip:false,maxRotation:45,font:{size:10,family:'Arial'},color:'#888'},grid:{display:false}},
+      y:{beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>v.toLocaleString()},grid:{color:'rgba(0,0,0,0.05)'}}
+    }
+  }
+});
+
+// GP chart
+new Chart(document.getElementById('gpChart'),{
+  data:{labels:months,datasets:[
+    {type:'bar',data:rev,backgroundColor:'rgba(58,122,191,0.45)',borderRadius:3,yAxisID:'y',order:2,label:'Revenue'},
+    {type:'line',data:gp,borderColor:gp.map(v=>v>=0?'#1a7a40':'#c03020'),
+     segment:{borderColor:ctx=>ctx.p1.parsed.y>=0?'#1a7a40':'#c03020'},
+     pointBackgroundColor:gp.map(v=>v>=0?'#1a7a40':'#c03020'),
+     pointRadius:5,tension:0.3,borderWidth:2.5,yAxisID:'y',order:1,label:'GP',fill:false}
+  ]},
+  options:{
+    responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' $'+c.parsed.y.toLocaleString()},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},
+    scales:{
+      x:{ticks:{autoSkip:false,maxRotation:45,font:{size:11,family:'Arial'},color:'#888'},grid:{display:false}},
+      y:{ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>'$'+(v/1000).toFixed(0)+'k'},grid:{color:'rgba(0,0,0,0.05)'}}
+    }
+  }
+});
+
+// Player donut
+new Chart(document.getElementById('playerChart'),{
+  type:'doughnut',
+  data:{labels:['Returning players','New (Apr 2026)'],datasets:[{data:[8379,213],backgroundColor:['#3a7abf','#c0d8f0'],borderWidth:0,hoverOffset:3}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{font:{size:12,family:'Arial'},color:'#666',padding:14,boxWidth:12}},tooltip:{backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}}}
+});
+
+// Deposit donut
+new Chart(document.getElementById('depChart'),{
+  type:'doughnut',
+  data:{labels:['Returning players','New players'],datasets:[{data:[8957917,170579],backgroundColor:['#1a7a40','#a0d4b0'],borderWidth:0,hoverOffset:3}]},
+  options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{font:{size:12,family:'Arial'},color:'#666',padding:14,boxWidth:12}},tooltip:{callbacks:{label:c=>' R'+c.parsed.toLocaleString()},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}}}
+});
+
+// Table
+const rows=[
+  ['May 25',36264,3722,1892,23123,-13141,10],
+  ['Jun 25',48563,2723,1318,19785,-28778,18],
+  ['Jul 25',35999,3073,1556,36366,367,12],
+  ['Aug 25',39162,2663,1345,29915,-9247,15],
+  ['Sep 25',20047,1375,878,42007,21960,15],
+  ['Oct 25',30837,1088,756,37208,6371,28],
+  ['Nov 25',16483,953,681,35124,18641,17],
+  ['Dec 25',11351,804,650,46155,34804,14],
+  ['Jan 26',22206,1081,644,21992,-214,21],
+  ['Feb 26',10845,843,613,22353,11508,13],
+  ['Mar 26',13141,600,614,32931,19790,22],
+];
+const tbody=document.getElementById('tbody');
+let tSpend=0,tReg=0,tFtd=0,tRev=0,tGp=0;
+rows.forEach(([m,sp,rg,fd,rv,gp,cpr])=>{
+  tSpend+=sp;tReg+=rg;tFtd+=fd;tRev+=rv;tGp+=gp;
+  const ftdRate=rg>0?Math.round(fd/rg*100)+'%':'—';
+  const gpC=gp>=0?'pos':'neg';
+  const cprStr=cpr?'$'+cpr:'—';
+  tbody.innerHTML+=`<tr>
+    <td>${m}</td>
+    <td>$${sp.toLocaleString()}</td>
+    <td>${rg.toLocaleString()}</td>
+    <td>${fd.toLocaleString()}</td>
+    <td>$${rv.toLocaleString()}</td>
+    <td class="${gpC}">${gp>=0?'+':''}$${gp.toLocaleString()}</td>
+    <td>${cprStr}</td>
+    <td>${ftdRate}</td>
+  </tr>`;
+});
+const gpC=tGp>=0?'pos':'neg';
+tbody.innerHTML+=`<tr>
+  <td>Total</td>
+  <td>$${tSpend.toLocaleString()}</td>
+  <td>${tReg.toLocaleString()}</td>
+  <td>${tFtd.toLocaleString()}</td>
+  <td>$${tRev.toLocaleString()}</td>
+  <td class="${gpC}">${tGp>=0?'+':''}$${tGp.toLocaleString()}</td>
+  <td>$${Math.round(tSpend/tReg)}</td>
+  <td>${Math.round(tFtd/tReg*100)}%</td>
+</tr>`;
+
+// Returning player growth chart
+const retMonths = ['Aug 25','Sep 25','Oct 25','Nov 25','Dec 25','Mar 26','Apr 26*'];
+const retData   = [7100, 6997, 7343, 7229, 7306, 8623, 8296];
+const retChanges= [null, -1.5, +4.9, -1.6, +1.1, +18.0, -3.8];
+
+new Chart(document.getElementById('retChart'), {
+  type: 'bar',
+  data: {
+    labels: retMonths,
+    datasets: [{
+      data: retData,
+      backgroundColor: retData.map((_, i) => i === 6 ? 'rgba(58,122,191,0.45)' : 'rgba(26,122,64,0.72)'),
+      borderRadius: 3, borderWidth: 0
+    }]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    layout: { padding: { top: 30 } },
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: c => ' ' + c.parsed.y.toLocaleString() + ' returning players' }, backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10 }
+    },
+    scales: {
+      x: { ticks: { autoSkip: false, font: { size: 12, family: 'Arial' }, color: '#888' }, grid: { display: false } },
+      y: { beginAtZero: false, min: 6500, ticks: { font: { size: 11, family: 'Arial' }, color: '#888', callback: v => v.toLocaleString() }, grid: { color: 'rgba(0,0,0,0.05)' } }
+    },
+    animation: {
+      onComplete: function() {
+        const chart = this;
+        const ctx = chart.ctx;
+        ctx.save();
+        ctx.font = 'bold 12px Arial';
+        ctx.textAlign = 'center';
+        chart.data.datasets[0].data.forEach((val, i) => {
+          const meta = chart.getDatasetMeta(0);
+          const bar = meta.data[i];
+          const chg = retChanges[i];
+          if (chg !== null) {
+            const label = (chg >= 0 ? '+' : '') + chg.toFixed(1) + '%';
+            ctx.fillStyle = chg >= 0 ? '#1a7a40' : '#c03020';
+            ctx.fillText(label, bar.x, bar.y - 8);
+          }
+          ctx.fillStyle = '#1a1a1a';
+          ctx.font = '11px Arial';
+          ctx.fillText(val.toLocaleString(), bar.x, bar.y - 22);
+        });
+        ctx.restore();
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
