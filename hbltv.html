@@ -1,0 +1,391 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Player LTV Analysis — Performix Media</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: Georgia, serif; background: #f4f3f0; color: #1a1a1a; }
+  .page { max-width: 960px; margin: 0 auto; padding: 48px 40px; }
+
+  .header { border-bottom: 2px solid #1a1a1a; padding-bottom: 24px; margin-bottom: 40px; display: flex; justify-content: space-between; align-items: flex-end; }
+  .brand { font-size: 12px; font-family: Arial, sans-serif; color: #999; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+  h1 { font-size: 30px; font-weight: normal; letter-spacing: -0.5px; }
+  .date { text-align: right; font-size: 13px; font-family: Arial, sans-serif; color: #999; line-height: 1.8; }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+  .kpi { background: #fff; border: 1px solid #e0deda; border-radius: 6px; padding: 18px; }
+  .kpi.dark { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+  .kpi.warn { background: #fff8f0; border-color: #f0c090; }
+  .kpi .label { font-size: 11px; font-family: Arial, sans-serif; color: #aaa; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+  .kpi.dark .label { color: #666; }
+  .kpi.warn .label { color: #b07030; }
+  .kpi .value { font-size: 26px; letter-spacing: -1px; line-height: 1.1; }
+  .kpi.warn .value { color: #c05010; }
+  .kpi .sub { font-size: 11px; font-family: Arial, sans-serif; color: #aaa; margin-top: 5px; }
+  .kpi.warn .sub { color: #b07030; }
+
+  .section { margin-bottom: 52px; }
+  .section-label { font-size: 11px; font-family: Arial, sans-serif; color: #bbb; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+  h2 { font-size: 20px; font-weight: normal; margin-bottom: 14px; letter-spacing: -0.3px; }
+  .insight { font-size: 13px; font-family: Arial, sans-serif; color: #555; line-height: 1.8; margin-bottom: 20px; padding-left: 14px; border-left: 3px solid #ddd; }
+  .insight strong { color: #1a1a1a; }
+
+  .chart-box { background: #fff; border: 1px solid #e0deda; border-radius: 8px; padding: 26px; margin-bottom: 20px; }
+  .chart-title { font-size: 13px; font-family: Arial, sans-serif; font-weight: bold; color: #222; margin-bottom: 3px; }
+  .chart-sub { font-size: 12px; font-family: Arial, sans-serif; color: #bbb; margin-bottom: 14px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 18px; font-size: 12px; font-family: Arial, sans-serif; color: #666; margin-bottom: 12px; }
+  .leg { display: flex; align-items: center; gap: 7px; }
+  .sw { width: 12px; height: 12px; border-radius: 2px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  .ltv-table { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; font-size: 13px; }
+  .ltv-table th { font-size: 11px; color: #aaa; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #e0deda; padding: 8px 12px; font-weight: normal; text-align: right; }
+  .ltv-table th:first-child { text-align: left; }
+  .ltv-table td { padding: 11px 12px; border-bottom: 1px solid #f0eeea; color: #444; text-align: right; }
+  .ltv-table td:first-child { text-align: left; font-weight: bold; color: #1a1a1a; }
+  .ltv-table tr:last-child td { border-bottom: none; }
+  .pos { color: #1a7a40; font-weight: bold; }
+  .neg { color: #c03020; font-weight: bold; }
+  .highlight-row td { background: #f4f3f0; }
+
+  .callout { background: #1a1a1a; color: #fff; border-radius: 8px; padding: 24px 28px; margin-bottom: 32px; }
+  .callout .headline { font-size: 18px; margin-bottom: 8px; letter-spacing: -0.3px; }
+  .callout p { font-size: 13px; font-family: Arial, sans-serif; color: #aaa; line-height: 1.8; }
+  .callout strong { color: #fff; }
+
+  .callout-warn { background: #fff8f0; border: 1px solid #f0c090; border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
+  .callout-warn .headline { font-size: 15px; color: #c05010; margin-bottom: 6px; font-family: Arial, sans-serif; font-weight: bold; }
+  .callout-warn p { font-size: 13px; font-family: Arial, sans-serif; color: #805030; line-height: 1.7; }
+
+  .note { font-size: 11px; font-family: Arial, sans-serif; color: #bbb; margin-top: 10px; }
+  .footer { border-top: 1px solid #e0deda; padding-top: 20px; margin-top: 48px; font-size: 11px; font-family: Arial, sans-serif; color: #ccc; display: flex; justify-content: space-between; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div>
+      <div class="brand">Performix Media · Hollywoodbets SA</div>
+      <h1>Player Lifetime Value Analysis</h1>
+    </div>
+    <div class="date">
+      August 2025 – April 2026<br>
+      <span>23,348 players · 16,336 FTDs</span>
+    </div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi">
+      <div class="label">Total registrations</div>
+      <div class="value">18,925</div>
+      <div class="sub">May 2025 – Mar 2026</div>
+    </div>
+    <div class="kpi">
+      <div class="label">FTD conversion rate</div>
+      <div class="value">70%</div>
+      <div class="sub">30% never deposit</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Cost per registration</div>
+      <div class="value">$15</div>
+      <div class="sub">Performix Media avg</div>
+    </div>
+    <div class="kpi warn">
+      <div class="label">True cost per FTD</div>
+      <div class="value">$26</div>
+      <div class="sub">real acquisition cost</div>
+    </div>
+  </div>
+
+
+
+  <div class="section">
+    <div class="section-label">01</div>
+    <h2>Registration to FTD funnel</h2>
+    <p class="insight">Of every 100 registrations, <strong>70 make a first deposit</strong> and 30 never convert. Of those 70, only around <strong>57 go on to generate any commission</strong>. The $15 cost per registration understates the real acquisition cost — it should be viewed as <strong>$26 per first time depositor</strong>.</p>
+
+    <div class="two-col">
+      <div class="chart-box">
+        <div class="chart-title">Per 100 registrations</div>
+        <div class="chart-sub">What happens after a player signs up</div>
+        <div style="position:relative;height:220px;">
+          <canvas id="funnelChart" role="img" aria-label="Horizontal bar chart showing 100 registrations, 70 FTDs and 57 commission generating players"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">FTD conversion rate</div>
+        <div class="chart-sub">Registrations that make a first deposit</div>
+        <div style="position:relative;height:220px;">
+          <canvas id="convChart" role="img" aria-label="Donut chart showing 70 percent FTD conversion"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">02</div>
+    <h2>LTV per first time depositor</h2>
+    <p class="insight">Based on <strong>6,572 FTDs</strong> active in 3 or more months. LTV is monthly commission multiplied by projected lifespan. The median FTD generates just <strong>R19/month (~$1)</strong> — well below what it costs to acquire them at $26.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Projected LTV by lifespan — median, average &amp; top 10% FTDs</div>
+      <div class="chart-sub">ZAR · based on actual commission from player reports</div>
+      <div class="legend">
+        <div class="leg"><div class="sw" style="background:#3a7abf;"></div>Median FTD</div>
+        <div class="leg"><div class="sw" style="background:#1a7a40;"></div>Average FTD</div>
+        <div class="leg"><div class="sw" style="background:#7a3abf;"></div>Top 10% FTD</div>
+      </div>
+      <div style="position:relative;height:280px;">
+        <canvas id="ltvChart" role="img" aria-label="Grouped bar chart showing LTV projections at 12, 15, 18 and 24 months for median, average and top 10 percent FTDs"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-title">Full LTV table</div>
+      <div class="chart-sub" style="margin-bottom:16px;">All FTD segments · ZAR and USD ($1 = R18.50)</div>
+      <table class="ltv-table">
+        <thead>
+          <tr>
+            <th>FTD segment</th>
+            <th>Commission / month</th>
+            <th>LTV 12m</th>
+            <th>LTV 15m</th>
+            <th>LTV 18m</th>
+            <th>LTV 24m</th>
+            <th>ROI vs $26 per FTD</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Median FTD</td>
+            <td>R19 ($1.04)</td>
+            <td>R231 ($12)</td>
+            <td>R289 ($16)</td>
+            <td>R347 ($19)</td>
+            <td>R462 ($25)</td>
+            <td class="neg">0.7x — loss</td>
+          </tr>
+          <tr>
+            <td>Average FTD</td>
+            <td>R117 ($6.30)</td>
+            <td>R1,399 ($76)</td>
+            <td>R1,748 ($95)</td>
+            <td>R2,098 ($113)</td>
+            <td>R2,797 ($151)</td>
+            <td class="pos">4.4x</td>
+          </tr>
+          <tr class="highlight-row">
+            <td>Top 10% FTD</td>
+            <td>R876 ($47)</td>
+            <td>R10,506 ($568)</td>
+            <td>R13,133 ($710)</td>
+            <td>R15,759 ($852)</td>
+            <td>R21,013 ($1,136)</td>
+            <td class="pos">32.7x</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">03</div>
+    <h2>ROI analysis</h2>
+    <p class="insight">Measured against $26 per FTD, the median depositing player does not pay back their acquisition cost over 18 months. <strong>Profitability is entirely driven by the top 30–40% of FTDs.</strong> Acquiring more players matters less than acquiring better quality players.</p>
+
+    <div class="callout-warn">
+      <div class="headline">The median FTD loses money at 0.7x ROI</div>
+      <p>A typical depositing player generates $19 in commission over 18 months against a $26 acquisition cost. The business is only profitable in aggregate because a small number of high-value players more than compensate for the majority.</p>
+    </div>
+
+
+
+    <div class="two-col">
+      <div class="chart-box">
+        <div class="chart-title">Break-even lifespan by segment</div>
+        <div class="chart-sub">Months until $26 FTD cost is recovered</div>
+        <div style="position:relative;height:210px;">
+          <canvas id="beChart" role="img" aria-label="Bar chart showing median FTD never breaks even, average breaks even at 4 months, top 10 percent under 1 month"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">ROI multiplier at 18 months</div>
+        <div class="chart-sub">Return on $26 FTD acquisition cost</div>
+        <div style="position:relative;height:210px;">
+          <canvas id="roiMultChart" role="img" aria-label="Bar chart showing 0.7x ROI for median, 4.4x for average and 32.7x for top 10 percent"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">04</div>
+    <h2>FTD value distribution</h2>
+    <p class="insight"><strong>71.8% of FTDs generate under R50/month</strong> — below break-even. Only the top 10% (657 players) generate enough to carry the business. The top 10% produce <strong>75% of all commission revenue.</strong></p>
+
+    <div class="two-col">
+      <div class="chart-box">
+        <div class="chart-title">FTDs by monthly commission</div>
+        <div class="chart-sub">6,572 FTDs active 3+ months</div>
+        <div style="position:relative;height:260px;">
+          <canvas id="distChart" role="img" aria-label="Bar chart showing FTD distribution heavily concentrated in low value brackets"></canvas>
+        </div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Commission concentration</div>
+        <div class="chart-sub">Top 10% vs bottom 90% of FTDs</div>
+        <div style="position:relative;height:260px;">
+          <canvas id="concChart" role="img" aria-label="Donut chart showing top 10 percent generating 75 percent of commission"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">05</div>
+    <h2>Monthly cost per FTD</h2>
+    <p class="insight">Cost per FTD varies significantly month to month — from <strong>$17.46 in December 2025</strong> to <strong>$40.79 in October 2025</strong>. October was the worst month for acquisition efficiency. The overall weighted average across the full period is <strong>$26.03 per FTD</strong>.</p>
+
+    <div class="chart-box">
+      <div class="chart-title">Cost per FTD vs cost per registration — month by month</div>
+      <div class="chart-sub">From Performix Media report · Hollywood SA only</div>
+      <div class="legend">
+        <div class="leg"><div class="sw" style="background:#c03020;opacity:0.75;"></div>Cost per FTD</div>
+        <div class="leg"><div class="sw" style="background:#3a7abf;opacity:0.75;"></div>Cost per registration</div>
+      </div>
+      <div style="position:relative;height:280px;">
+        <canvas id="cpftdChart" role="img" aria-label="Line chart showing monthly cost per FTD and cost per registration from May 2025 to March 2026"></canvas>
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <div class="chart-title">Monthly cost per FTD — full table</div>
+      <div class="chart-sub" style="margin-bottom:16px;">Source: Performix Media forecast report</div>
+      <table class="ltv-table">
+        <thead>
+          <tr>
+            <th>Month</th>
+            <th>Ad spend</th>
+            <th>Registrations</th>
+            <th>FTDs</th>
+            <th>Cost per registration</th>
+            <th>Cost per FTD</th>
+          </tr>
+        </thead>
+        <tbody id="cpftdTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-label">06</div>
+    <h2>Methodology</h2>
+    <div class="chart-box">
+      <div class="chart-title">How these numbers were calculated</div>
+      <div class="chart-sub" style="margin-bottom:16px;"></div>
+      <table class="ltv-table">
+        <thead><tr><th style="text-align:left;">Step</th><th style="text-align:left;">Method</th></tr></thead>
+        <tbody>
+          <tr><td>Data source</td><td style="text-align:left;">7 monthly player-level affiliate reports (Aug 2025 – Apr 2026)</td></tr>
+          <tr><td>Player filter</td><td style="text-align:left;">FTDs only, active in 3+ months with positive commission — 6,572 players</td></tr>
+          <tr><td>Monthly commission</td><td style="text-align:left;">Total commission ÷ number of active months per player</td></tr>
+          <tr><td>LTV projection</td><td style="text-align:left;">Monthly commission × estimated lifespan (12–24 months)</td></tr>
+          <tr><td>Lifespan estimate</td><td style="text-align:left;">Cohort analysis: players from Jun 2024 still active Apr 2026 (22 months)</td></tr>
+          <tr><td>FTD conversion rate</td><td style="text-align:left;">16,336 FTDs ÷ 23,348 total registrations = 70%</td></tr>
+          <tr><td>Cost per FTD</td><td style="text-align:left;">$284,898 total spend ÷ 10,947 FTDs (Performix data) = $26.03</td></tr>
+          <tr><td>Cost per registration</td><td style="text-align:left;">$284,898 ÷ 18,925 registrations = $15.05</td></tr>
+          <tr><td>Currency</td><td style="text-align:left;">ZAR converted at R18.50 = $1.00</td></tr>
+        </tbody>
+      </table>
+      <p class="note">Note: data covers 7 non-consecutive months. Jan and Feb 2026 player-level reports were unavailable. The period (Aug 2025 – Apr 2026) was a declining traffic period — peak LTV may be higher.</p>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>Performix Media — Confidential</span>
+    <span>Source: Hollywoodbets affiliate player reports Aug 2025 – Apr 2026 · Performix Media forecast</span>
+  </div>
+
+</div>
+<script>
+new Chart(document.getElementById('funnelChart'),{type:'bar',indexAxis:'y',data:{labels:['Registrations','First time depositors','Commission-generating'],datasets:[{data:[100,70,57],backgroundColor:['rgba(58,122,191,0.75)','rgba(26,122,64,0.75)','rgba(122,58,191,0.75)'],borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.x} out of 100`},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},scales:{x:{beginAtZero:true,max:115,ticks:{font:{size:11,family:'Arial'},color:'#888'},grid:{color:'rgba(0,0,0,0.05)'}},y:{ticks:{font:{size:12,family:'Arial'},color:'#888'},grid:{display:false}}}},plugins:[{afterDatasetsDraw:chart=>{const ctx=chart.ctx;chart.data.datasets[0].data.forEach((val,i)=>{const meta=chart.getDatasetMeta(0);const bar=meta.data[i];ctx.save();ctx.fillStyle='#333';ctx.font='bold 13px Arial';ctx.textAlign='left';ctx.fillText(val,bar.x+6,bar.y+5);ctx.restore();});}}]});
+
+new Chart(document.getElementById('convChart'),{type:'doughnut',data:{labels:['Made first deposit (70%)','Never deposited (30%)'],datasets:[{data:[70,30],backgroundColor:['#1a7a40','#e0deda'],borderWidth:0,hoverOffset:3}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{font:{size:11,family:'Arial'},color:'#555',padding:14,boxWidth:12}},tooltip:{callbacks:{label:c=>` ${c.parsed}%`},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}}}});
+
+new Chart(document.getElementById('ltvChart'),{type:'bar',data:{labels:['12 months','15 months','18 months','24 months'],datasets:[{label:'Median FTD',data:[231,289,347,462],backgroundColor:'rgba(58,122,191,0.8)',borderRadius:3,borderWidth:0},{label:'Average FTD',data:[1399,1748,2098,2797],backgroundColor:'rgba(26,122,64,0.8)',borderRadius:3,borderWidth:0},{label:'Top 10% FTD',data:[10506,13133,15759,21013],backgroundColor:'rgba(122,58,191,0.8)',borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.dataset.label}: R${c.parsed.y.toLocaleString()} ($${Math.round(c.parsed.y/18.5)})`},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},scales:{x:{ticks:{font:{size:12,family:'Arial'},color:'#888'},grid:{display:false}},y:{beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>'R'+v.toLocaleString()},grid:{color:'rgba(0,0,0,0.05)'}}}}});
+
+new Chart(document.getElementById('roiChart'),{type:'bar',indexAxis:'y',data:{labels:['Median FTD','Average FTD','Top 10% FTD'],datasets:[{data:[19,113,852],backgroundColor:['rgba(192,48,32,0.7)','rgba(26,122,64,0.75)','rgba(122,58,191,0.75)'],borderRadius:4,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` $${c.parsed.x} LTV at 18 months`},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},scales:{x:{type:'logarithmic',ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>'$'+v},grid:{color:'rgba(0,0,0,0.05)'}},y:{ticks:{font:{size:12,family:'Arial'},color:'#888'},grid:{display:false}}}},plugins:[{afterDraw:chart=>{const ctx=chart.ctx;const xAxis=chart.scales.x;const x=xAxis.getPixelForValue(26);ctx.save();ctx.beginPath();ctx.moveTo(x,chart.chartArea.top);ctx.lineTo(x,chart.chartArea.bottom);ctx.strokeStyle='#c03020';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.stroke();ctx.fillStyle='#c03020';ctx.font='bold 11px Arial';ctx.fillText('$26 cost per FTD',x+4,chart.chartArea.top+14);ctx.restore();}}]});
+
+new Chart(document.getElementById('beChart'),{type:'bar',data:{labels:['Median FTD','Average FTD','Top 10% FTD'],datasets:[{data:[25,4.1,0.55],backgroundColor:['rgba(192,48,32,0.7)','rgba(26,122,64,0.75)','rgba(122,58,191,0.75)'],borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.parsed.y>18?' Never breaks even within 18m':` Breaks even in ${c.parsed.y.toFixed(1)} months`},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},scales:{x:{ticks:{font:{size:11,family:'Arial'},color:'#888'},grid:{display:false}},y:{beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>v+'m'},grid:{color:'rgba(0,0,0,0.05)'},title:{display:true,text:'Months to break even',color:'#aaa',font:{size:11,family:'Arial'}}}}}});
+
+new Chart(document.getElementById('roiMultChart'),{type:'bar',data:{labels:['Median FTD','Average FTD','Top 10% FTD'],datasets:[{data:[0.7,4.4,32.7],backgroundColor:['rgba(192,48,32,0.7)','rgba(26,122,64,0.75)','rgba(122,58,191,0.75)'],borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y}x return on $26 cost per FTD`},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},scales:{x:{ticks:{font:{size:11,family:'Arial'},color:'#888'},grid:{display:false}},y:{beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>v+'x'},grid:{color:'rgba(0,0,0,0.05)'}}}}});
+
+new Chart(document.getElementById('distChart'),{type:'bar',data:{labels:['R0–10','R10–25','R25–50','R50–100','R100–200','R200–500','R500–1k','R1k–2k','R2k–5k','R5k+'],datasets:[{data:[2139,1563,1018,718,484,389,149,62,36,14],backgroundColor:['#c03020','#c03020','#c03020','#e07030','#e0a030','#1a7a40','#1a7a40','#7a3abf','#7a3abf','#7a3abf'],borderRadius:3,borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y.toLocaleString()} FTDs`},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}},scales:{x:{ticks:{autoSkip:false,maxRotation:45,font:{size:10,family:'Arial'},color:'#888'},grid:{display:false}},y:{beginAtZero:true,ticks:{font:{size:11,family:'Arial'},color:'#888',callback:v=>v.toLocaleString()},grid:{color:'rgba(0,0,0,0.05)'}}}}});
+
+new Chart(document.getElementById('concChart'),{type:'doughnut',data:{labels:['Top 10% of FTDs — 75% of commission','Bottom 90% — 25% of commission'],datasets:[{data:[75.2,24.8],backgroundColor:['#7a3abf','#e0deda'],borderWidth:0,hoverOffset:3}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{font:{size:11,family:'Arial'},color:'#555',padding:14,boxWidth:12}},tooltip:{callbacks:{label:c=>` ${c.parsed}%`},backgroundColor:'#fff',titleColor:'#333',bodyColor:'#555',borderColor:'#ddd',borderWidth:1,padding:10}}}});
+
+const cpftdData = [
+  ['May 25', 36264, 3722, 1892, 9.74,  19.17],
+  ['Jun 25', 48563, 2723, 1318, 17.83, 36.85],
+  ['Jul 25', 35999, 3073, 1556, 11.71, 23.14],
+  ['Aug 25', 39162, 2663, 1345, 14.71, 29.12],
+  ['Sep 25', 20047, 1375,  878, 14.58, 22.83],
+  ['Oct 25', 30837, 1088,  756, 28.34, 40.79],
+  ['Nov 25', 16483,  953,  681, 17.30, 24.20],
+  ['Dec 25', 11351,  804,  650, 14.12, 17.46],
+  ['Jan 26', 22206, 1081,  644, 20.54, 34.48],
+  ['Feb 26', 10845,  843,  613, 12.86, 17.69],
+  ['Mar 26', 13141,  600,  614, 21.90, 21.40],
+];
+
+new Chart(document.getElementById('cpftdChart'), {
+  type: 'line',
+  data: {
+    labels: cpftdData.map(r => r[0]),
+    datasets: [
+      { label: 'Cost per FTD', data: cpftdData.map(r => r[5]), borderColor: '#c03020', backgroundColor: 'rgba(192,48,32,0.08)', pointRadius: 5, pointBackgroundColor: '#c03020', tension: 0.3, borderWidth: 2.5, fill: true },
+      { label: 'Cost per reg', data: cpftdData.map(r => r[4]), borderColor: '#3a7abf', backgroundColor: 'transparent', pointRadius: 4, pointBackgroundColor: '#3a7abf', tension: 0.3, borderWidth: 2 }
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.dataset.label}: $${c.parsed.y.toFixed(2)}` }, backgroundColor: '#fff', titleColor: '#333', bodyColor: '#555', borderColor: '#ddd', borderWidth: 1, padding: 10 } },
+    scales: {
+      x: { ticks: { autoSkip: false, maxRotation: 45, font: { size: 11, family: 'Arial' }, color: '#888' }, grid: { display: false } },
+      y: { beginAtZero: true, ticks: { font: { size: 11, family: 'Arial' }, color: '#888', callback: v => '$' + v }, grid: { color: 'rgba(0,0,0,0.05)' } }
+    }
+  }
+});
+
+const tbody = document.getElementById('cpftdTableBody');
+const maxCpftd = Math.max(...cpftdData.map(r => r[5]));
+const minCpftd = Math.min(...cpftdData.map(r => r[5]));
+cpftdData.forEach(([m, spend, regs, ftds, cpr, cpftd]) => {
+  const isMax = cpftd === maxCpftd;
+  const isMin = cpftd === minCpftd;
+  const cls = isMax ? 'neg' : (isMin ? 'pos' : '');
+  tbody.innerHTML += `<tr>
+    <td>${m}</td>
+    <td>$${spend.toLocaleString()}</td>
+    <td>${regs.toLocaleString()}</td>
+    <td>${ftds.toLocaleString()}</td>
+    <td>$${cpr.toFixed(2)}</td>
+    <td class="${cls}">$${cpftd.toFixed(2)}${isMax ? ' ▲ highest' : (isMin ? ' ▼ lowest' : '')}</td>
+  </tr>`;
+});
+tbody.innerHTML += `<tr style="background:#f4f3f0;">
+  <td>Total / weighted avg</td>
+  <td>$284,898</td>
+  <td>18,925</td>
+  <td>10,947</td>
+  <td><strong>$15.05</strong></td>
+  <td><strong>$26.03</strong></td>
+</tr>`;
+</script>
+</body>
+</html>
