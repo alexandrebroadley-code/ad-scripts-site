@@ -1,0 +1,777 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BetKing Nigeria — Campaign Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --page:    #f0f2f5;
+  --white:   #ffffff;
+  --ink:     #0c1220;
+  --ink2:    #3a4660;
+  --ink3:    #8391ad;
+  --line:    #e3e7ef;
+  --line2:   #cdd3df;
+  --green:   #0db87a;
+  --green-l: #e6f8f2;
+  --green-t: rgba(13,184,122,0.12);
+  --red:     #e63950;
+  --red-l:   #fdedef;
+  --red-t:   rgba(230,57,80,0.10);
+  --amber:   #d97706;
+  --amber-l: #fef3e2;
+  --amber-t: rgba(217,119,6,0.10);
+  --blue:    #2563eb;
+  --blue-l:  #eff4fe;
+  --blue-t:  rgba(37,99,235,0.10);
+  --shadow:  0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --r: 12px;
+}
+
+html { font-size: 15px; }
+body {
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--page);
+  color: var(--ink);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── HEADER ─── */
+.header {
+  background: var(--ink);
+  color: #fff;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+}
+.hd-left  { display: flex; align-items: center; gap: 14px; }
+.hd-logo  {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: var(--green);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800; font-size: 15px; letter-spacing: 0.5px; color: #fff;
+}
+.hd-brand { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.3px; }
+.hd-sep   { width: 1px; height: 22px; background: rgba(255,255,255,0.18); }
+.hd-sub   { font-size: 12px; color: rgba(255,255,255,0.45); font-weight: 300; }
+.hd-right { display: flex; align-items: center; gap: 10px; }
+.hd-pill  {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px; color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.15);
+  padding: 5px 12px; border-radius: 100px;
+}
+.hd-live  {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 600; color: var(--green);
+  background: rgba(13,184,122,0.15);
+  border: 1px solid rgba(13,184,122,0.3);
+  padding: 5px 14px; border-radius: 100px;
+}
+.hd-dot   { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
+
+/* ─── LAYOUT ─── */
+.wrap  { max-width: 1340px; margin: 0 auto; padding: 32px 48px 80px; }
+.sec   { margin-top: 40px; }
+.sec-h {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink3);
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 16px;
+}
+.sec-h::after { content:''; flex:1; height:1px; background:var(--line); }
+
+/* ─── ALERT ─── */
+.alert {
+  background: var(--amber-l);
+  border-left: 3px solid var(--amber);
+  border-radius: 0 var(--r) var(--r) 0;
+  padding: 14px 18px;
+  font-size: 13px; color: var(--amber);
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+.alert strong { font-weight: 600; }
+
+/* ─── KPI TILES ─── */
+.kpi-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 10px; }
+.kpi {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 18px 16px 16px;
+  box-shadow: var(--shadow);
+}
+.kpi-label { font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink3); margin-bottom: 8px; }
+.kpi-val   {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 30px; font-weight: 800; line-height: 1; letter-spacing: -0.5px;
+}
+.kpi-note  { font-size: 11px; color: var(--ink3); margin-top: 5px; }
+.kpi-bar   { height: 2px; border-radius: 2px; margin-bottom: 12px; }
+.c-green   { color: var(--green); }
+.c-red     { color: var(--red); }
+.c-amber   { color: var(--amber); }
+.c-blue    { color: var(--blue); }
+.c-ink     { color: var(--ink); }
+
+/* ─── CARDS ─── */
+.g2   { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.g3   { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.g64  { display: grid; grid-template-columns: 1.65fr 1fr; gap: 16px; }
+.card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.card-h   { font-family: 'Barlow Condensed', sans-serif; font-size: 16px; font-weight: 700; letter-spacing: 0.2px; color: var(--ink); }
+.card-sub { font-size: 12px; color: var(--ink3); margin-top: 3px; margin-bottom: 20px; }
+.cw       { position: relative; width: 100%; }
+
+/* ─── TABLE ─── */
+.tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tbl thead th {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink3); padding: 0 14px 10px; text-align: right;
+  border-bottom: 1px solid var(--line);
+}
+.tbl thead th:first-child { text-align: left; }
+.tbl tbody tr { border-bottom: 1px solid var(--line); }
+.tbl tbody tr:last-child { border-bottom: none; }
+.tbl tbody tr:hover { background: #f7f9fc; }
+.tbl td { padding: 12px 14px; text-align: right; color: var(--ink2); }
+.tbl td:first-child { text-align: left; color: var(--ink); font-weight: 500; }
+.mono { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+.badge {
+  display: inline-flex; align-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px; font-weight: 500; padding: 2px 7px;
+  border-radius: 4px;
+}
+.badge-up   { background: var(--green-l); color: var(--green); }
+.badge-dn   { background: var(--red-l);   color: var(--red); }
+.badge-warn { background: var(--amber-l); color: var(--amber); }
+
+/* ─── SEGMENTS ─── */
+.seg-list { display: flex; flex-direction: column; gap: 20px; }
+.seg-row  {}
+.seg-top  { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+.seg-name { font-size: 12px; font-weight: 500; color: var(--ink2); }
+.seg-num  { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; }
+.seg-track{ height: 7px; background: var(--page); border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
+.seg-fill { height: 100%; border-radius: 4px; }
+.seg-note { font-size: 11px; color: var(--ink3); margin-top: 4px; }
+
+/* ─── INSIGHT CARDS ─── */
+.ins-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.ins {
+  border-radius: var(--r);
+  border: 1px solid;
+  padding: 18px;
+}
+.ins.warn  { background: var(--amber-l); border-color: rgba(217,119,6,0.25); }
+.ins.good  { background: var(--green-l); border-color: rgba(13,184,122,0.25); }
+.ins.info  { background: var(--blue-l);  border-color: rgba(37,99,235,0.2); }
+.ins-tag   { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px; }
+.ins.warn .ins-tag  { color: var(--amber); }
+.ins.good .ins-tag  { color: var(--green); }
+.ins.info .ins-tag  { color: var(--blue); }
+.ins-body  { font-size: 12px; color: var(--ink2); line-height: 1.65; }
+
+/* ─── PROJECTION TABLE ─── */
+.proj-tbl { width: 100%; border-collapse: collapse; font-size: 12px; }
+.proj-tbl thead th {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink3); padding: 0 14px 10px; text-align: right;
+  border-bottom: 2px solid var(--line);
+}
+.proj-tbl thead th:first-child { text-align: left; }
+.proj-tbl tbody tr { border-bottom: 1px solid var(--line); }
+.proj-tbl tbody tr:last-child { border-bottom: none; }
+.proj-tbl td { padding: 9px 14px; text-align: right; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--ink2); }
+.proj-tbl td:first-child { text-align: left; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink); }
+.proj-tbl tr.row-now { background: var(--amber-l); }
+.proj-tbl tr.row-now td { color: var(--amber) !important; }
+.proj-tbl tr.row-be  { background: var(--green-l); }
+.proj-tbl tr.row-be  td { color: var(--green) !important; }
+
+/* ─── SCENARIO CARDS ─── */
+.sc { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.sc-card {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.sc-head {
+  padding: 14px 18px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px; font-weight: 700; letter-spacing: 0.2px;
+}
+.sc-head.warn  { background: var(--amber-l); color: var(--amber); border-bottom: 1px solid rgba(217,119,6,0.2); }
+.sc-head.good  { background: var(--green-l); color: var(--green); border-bottom: 1px solid rgba(13,184,122,0.2); }
+.sc-head.bad   { background: var(--red-l);   color: var(--red);   border-bottom: 1px solid rgba(230,57,80,0.2); }
+.sc-sub        { font-size: 11px; font-weight: 400; opacity: 0.7; display: block; margin-top: 1px; }
+.sc-body       { padding: 14px 18px; display: flex; flex-direction: column; gap: 9px; }
+.sc-row        { display: flex; justify-content: space-between; align-items: center; }
+.sc-key        { font-size: 11px; color: var(--ink3); }
+.sc-v          { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; color: var(--ink); }
+.sc-note       { font-size: 11px; color: var(--ink3); line-height: 1.55; margin-top: 4px; padding-top: 10px; border-top: 1px solid var(--line); }
+
+/* ─── FOOTER ─── */
+.footer {
+  margin-top: 56px; padding: 18px 48px;
+  border-top: 1px solid var(--line);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.footer-note { font-size: 11px; color: var(--ink3); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="hd-left">
+    <div class="hd-logo">BK</div>
+    <div class="hd-brand">BetKing Nigeria</div>
+    <div class="hd-sep"></div>
+    <div class="hd-sub">Affiliate Campaign Dashboard — Performix Media</div>
+  </div>
+  <div class="hd-right">
+    <div class="hd-pill">Feb 2026 – Apr 20, 2026</div>
+    <div class="hd-live"><span class="hd-dot"></span>Live</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ALERT -->
+  <div class="sec">
+    <div class="alert">
+      <strong>Early-stage campaign — 2 months of paid media data.</strong>&nbsp; CAC ($13.42) currently exceeds the observed LTV ($4.97 over 3.6 months). Breakeven is projected at month 10. The positive signal: cost per FTD fell 45% from Feb ($20) to Mar ($11) as volume scaled, and FTDs grew 245% month-on-month.
+    </div>
+  </div>
+
+  <!-- KPIs ROW 1 -->
+  <div class="sec">
+    <div class="sec-h">Campaign overview</div>
+    <div class="kpi-grid">
+      <div class="kpi">
+        <div class="kpi-bar" style="background:var(--blue)"></div>
+        <div class="kpi-label">Ad Spend</div>
+        <div class="kpi-val c-ink">$3,462</div>
+        <div class="kpi-note">Feb $1,180 · Mar $2,282</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-bar" style="background:var(--blue)"></div>
+        <div class="kpi-label">Player Deposits</div>
+        <div class="kpi-val c-blue">$12,333</div>
+        <div class="kpi-note">3.56× return on ad spend</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-bar" style="background:var(--green)"></div>
+        <div class="kpi-label">Gross Revenue</div>
+        <div class="kpi-val c-green">$5,775</div>
+        <div class="kpi-note">46.8% margin on deposits</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-bar" style="background:var(--red)"></div>
+        <div class="kpi-label">Gross Profit</div>
+        <div class="kpi-val c-red">-$2,474</div>
+        <div class="kpi-note">Feb -$995 · Mar -$1,479</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-bar" style="background:var(--ink)"></div>
+        <div class="kpi-label">Total Players</div>
+        <div class="kpi-val c-ink">745</div>
+        <div class="kpi-note">376 deposited (50.5%)</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-bar" style="background:var(--green)"></div>
+        <div class="kpi-label">FTDs</div>
+        <div class="kpi-val c-green">258</div>
+        <div class="kpi-note">Feb 58 · Mar 200 (+245%)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPIs ROW 2 -->
+  <div class="kpi-grid" style="margin-top:10px;">
+    <div class="kpi">
+      <div class="kpi-bar" style="background:var(--amber)"></div>
+      <div class="kpi-label">Blended CAC</div>
+      <div class="kpi-val c-amber">$13.42</div>
+      <div class="kpi-note">Cost per first-time depositor</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-bar" style="background:var(--blue)"></div>
+      <div class="kpi-label">Player LTV</div>
+      <div class="kpi-val c-blue">$4.97</div>
+      <div class="kpi-note">Net rev / player over 3.6 mo</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-bar" style="background:var(--red)"></div>
+      <div class="kpi-label">LTV / CAC Ratio</div>
+      <div class="kpi-val c-red">0.37×</div>
+      <div class="kpi-note">Target ≥ 3× at maturity</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-bar" style="background:var(--amber)"></div>
+      <div class="kpi-label">Monthly LTV Rate</div>
+      <div class="kpi-val c-amber">$1.39</div>
+      <div class="kpi-note">Net revenue / player / month</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-bar" style="background:var(--amber)"></div>
+      <div class="kpi-label">CAC Payback</div>
+      <div class="kpi-val c-amber">~10 mo</div>
+      <div class="kpi-note">Breakeven on acquisition cost</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-bar" style="background:var(--green)"></div>
+      <div class="kpi-label">Commission Earned</div>
+      <div class="kpi-val c-green">$1,982</div>
+      <div class="kpi-note">CPA $500 flat + RevShare $1,482 ongoing · 250 hybrid players</div>
+    </div>
+  </div>
+
+  <!-- MONTHLY PERFORMANCE -->
+  <div class="sec">
+    <div class="sec-h">Monthly performance</div>
+    <div class="g64">
+      <div class="card">
+        <div class="card-h">Ad Spend vs. Revenue vs. Gross Profit</div>
+        <div class="card-sub">February and March 2026. Cost per FTD shown on right axis (orange line).</div>
+        <div class="cw" style="height:280px;">
+          <canvas id="monthlyChart" role="img" aria-label="Monthly BetKing performance chart">Monthly performance</canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h">Month-on-month change</div>
+        <div class="card-sub">Feb → Mar 2026. Revenue and volume growing faster than spend.</div>
+        <table class="tbl" style="margin-top:6px;">
+          <thead>
+            <tr><th>Metric</th><th>Feb</th><th>Mar</th><th>MoM</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ad Spend</td><td class="mono">$1,180</td><td class="mono">$2,282</td><td><span class="badge badge-warn">+93%</span></td></tr>
+            <tr><td>Revenue</td><td class="mono">$185</td><td class="mono">$803</td><td><span class="badge badge-up">+334%</span></td></tr>
+            <tr><td>Deposits</td><td class="mono">$1,066</td><td class="mono">$5,057</td><td><span class="badge badge-up">+374%</span></td></tr>
+            <tr><td>Registrations</td><td class="mono">117</td><td class="mono">394</td><td><span class="badge badge-up">+237%</span></td></tr>
+            <tr><td>FTDs</td><td class="mono">58</td><td class="mono">200</td><td><span class="badge badge-up">+245%</span></td></tr>
+            <tr><td>Cost / FTD</td><td class="mono c-amber">$20</td><td class="mono c-amber">$11</td><td><span class="badge badge-up">−45%</span></td></tr>
+            <tr><td>Gross Profit</td><td class="mono c-red">−$995</td><td class="mono c-red">−$1,479</td><td><span class="badge badge-dn">−49%</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- LTV / CAC -->
+  <div class="sec">
+    <div class="sec-h">LTV vs. CAC analysis</div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-h">CAC payback projection — 12 months</div>
+        <div class="card-sub">Cumulative net revenue per player ($1.39/mo) vs. $13.42 acquisition cost. Breakeven ~month 10.</div>
+        <div class="cw" style="height:260px;">
+          <canvas id="ltvChart" role="img" aria-label="LTV payback curve with breakeven at month 10">LTV chart</canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h">Revenue funnel</div>
+        <div class="card-sub">From player deposits to net revenue. Commission = flat CPA + ongoing RevShare earned from the same 250 qualifying players.</div>
+        <div class="cw" style="height:260px;">
+          <canvas id="funnelChart" role="img" aria-label="Revenue funnel: deposits 12333, gross rev 5775, net rev 3704, commission 1982">Funnel chart</canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HYBRID DEAL BREAKDOWN -->
+  <div class="sec">
+    <div class="sec-h">Hybrid deal structure — CPA + RevShare</div>
+    <div class="card">
+      <div class="card-h">How the deal works</div>
+      <div class="card-sub">The same 250 qualifying players trigger both the flat CPA fee and ongoing RevShare. Non-qualifying players (495) generate zero commission under either component.</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;margin-top:16px;">
+        <div style="background:var(--blue-l);border:1px solid rgba(37,99,235,0.18);border-radius:10px;padding:16px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--blue);margin-bottom:8px;">Qualifying players</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--ink);">250</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:4px;">Met the CPA threshold — both deal components applied</div>
+        </div>
+        <div style="background:var(--green-l);border:1px solid rgba(13,184,122,0.18);border-radius:10px;padding:16px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">Flat CPA per player</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--ink);">$2.00</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:4px;">One-time fee on qualification · $500 total</div>
+        </div>
+        <div style="background:var(--green-l);border:1px solid rgba(13,184,122,0.18);border-radius:10px;padding:16px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--green);margin-bottom:8px;">RevShare per player</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--ink);">$5.93</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:4px;">Ongoing % of net revenue · $1,482 total so far</div>
+        </div>
+        <div style="background:var(--amber-l);border:1px solid rgba(217,119,6,0.18);border-radius:10px;padding:16px;">
+          <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--amber);margin-bottom:8px;">Total earned / hybrid player</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:32px;font-weight:800;color:var(--ink);">$7.93</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:4px;">CPA $2.00 + RevShare $5.93 · ~56% of net rev earned back</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding:13px 16px;background:#f7f9fc;border-radius:8px;border:1px solid var(--line);font-size:12px;color:var(--ink2);line-height:1.65;">
+        <strong style="color:var(--ink);">Implied RevShare rate:</strong> $1,482 commission on $3,704 net revenue = <strong style="color:var(--green);">40% RevShare</strong> on the qualifying cohort. As retained players wager more over time, RevShare becomes the dominant long-term revenue driver — making retention of hybrid-deal players the top priority.
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAYER SEGMENTS -->
+  <div class="sec">
+    <div class="sec-h">Player segmentation — 745 players (Jan–Apr 20, 2026)</div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-h">Average net revenue by cohort</div>
+        <div class="card-sub">Hybrid-deal players (250) earned us both a flat CPA + ongoing RevShare. Non-qualifying players generate no commission.</div>
+        <div class="cw" style="height:240px;">
+          <canvas id="segChart" role="img" aria-label="Hybrid-deal players avg net rev $14.79 vs non-qualifying $0.01">Segment chart</canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h">Player value breakdown</div>
+        <div class="card-sub">Key cohort metrics relative to each other.</div>
+        <div class="seg-list" style="margin-top:12px;">
+          <div class="seg-row">
+            <div class="seg-top">
+              <span class="seg-name">Hybrid-deal players (250) — avg net revenue</span>
+              <span class="seg-num c-green">$14.79</span>
+            </div>
+            <div class="seg-track"><div class="seg-fill" style="width:100%;background:var(--green)"></div></div>
+            <div class="seg-note">These 250 players earn us CPA + RevShare and generate ~99% of net revenue</div>
+          </div>
+          <div class="seg-row">
+            <div class="seg-top">
+              <span class="seg-name">Depositing players — avg deposit (376)</span>
+              <span class="seg-num c-blue">$32.80</span>
+            </div>
+            <div class="seg-track"><div class="seg-fill" style="width:72%;background:var(--blue)"></div></div>
+            <div class="seg-note">Median only $1.21 — heavily skewed by top players</div>
+          </div>
+          <div class="seg-row">
+            <div class="seg-top">
+              <span class="seg-name">Negative net revenue players (93)</span>
+              <span class="seg-num c-red">12.5%</span>
+            </div>
+            <div class="seg-track"><div class="seg-fill" style="width:12.5%;background:var(--red)"></div></div>
+            <div class="seg-note">Won more than wagered — worst case −$801 single player</div>
+          </div>
+          <div class="seg-row">
+            <div class="seg-top">
+              <span class="seg-name">LTV / CAC coverage at 3.6 months</span>
+              <span class="seg-num c-amber">37%</span>
+            </div>
+            <div class="seg-track"><div class="seg-fill" style="width:37%;background:var(--amber)"></div></div>
+            <div class="seg-note">~9.7 months needed to fully recover acquisition cost</div>
+          </div>
+          <div class="seg-row">
+            <div class="seg-top">
+              <span class="seg-name">Non-qualifying players (495) — avg net revenue</span>
+              <span class="seg-num" style="color:var(--ink3)">$0.01</span>
+            </div>
+            <div class="seg-track"><div class="seg-fill" style="width:0.1%;background:var(--line2)"></div></div>
+            <div class="seg-note">Did not meet CPA threshold — no flat fee or RevShare earned on these accounts</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISTRIBUTION + TOP PLAYERS -->
+  <div class="sec">
+    <div class="sec-h">Net revenue distribution</div>
+    <div class="g64">
+      <div class="card">
+        <div class="card-h">Player count by net revenue bucket</div>
+        <div class="card-sub">353 players at $0 (never bet) · 93 negative · 299 positive across all buckets.</div>
+        <div class="cw" style="height:230px;">
+          <canvas id="distChart" role="img" aria-label="Distribution of players by net revenue bucket">Distribution</canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h">Top 5 players by net revenue</div>
+        <div class="card-sub">Top 5 players = $2,716 (73% of all net revenue).</div>
+        <table class="tbl" style="margin-top:8px;">
+          <thead>
+            <tr><th>Player</th><th>Deposits</th><th>Stakes</th><th>Net Rev</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>···4158</td><td class="mono">$2,258</td><td class="mono">$2,522</td><td class="mono c-green">$1,980</td></tr>
+            <tr><td>···4918</td><td class="mono">$205</td><td class="mono">$2,391</td><td class="mono c-green">$170</td></tr>
+            <tr><td>···7989</td><td class="mono">$697</td><td class="mono">$8,385</td><td class="mono c-green">$166</td></tr>
+            <tr><td>···4679</td><td class="mono">$233</td><td class="mono">$544</td><td class="mono c-green">$160</td></tr>
+            <tr><td>···2031</td><td class="mono">$334</td><td class="mono">$1,346</td><td class="mono c-green">$140</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:14px;padding:12px 14px;background:var(--amber-l);border-radius:8px;border:1px solid rgba(217,119,6,0.2);">
+          <div style="font-size:12px;font-weight:600;color:var(--amber);">High concentration risk</div>
+          <div style="font-size:11px;color:var(--ink3);margin-top:3px;">1 player alone = 53% of total net revenue. LTV is top-heavy and vulnerable to churn of top accounts.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 12-MONTH PROJECTION TABLE -->
+  <div class="sec">
+    <div class="sec-h">12-month CAC recovery projection</div>
+    <div class="card">
+      <div class="card-h">Month-by-month payback timeline</div>
+      <div class="card-sub">Based on $1.39/player/month net revenue rate · 258 FTDs acquired · $13.42 blended CAC. Current position and breakeven month highlighted.</div>
+      <div style="overflow-x:auto; margin-top:16px;">
+        <table class="proj-tbl">
+          <thead>
+            <tr>
+              <th style="text-align:left">Month</th>
+              <th>Cumul. LTV</th>
+              <th>CAC</th>
+              <th>Gap to breakeven</th>
+              <th>Coverage</th>
+              <th>Portfolio GP (258 FTDs)</th>
+              <th style="text-align:left">Status</th>
+            </tr>
+          </thead>
+          <tbody id="projBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIOS -->
+  <div class="sec">
+    <div class="sec-h">Forward scenarios</div>
+    <div class="sc">
+      <div class="sc-card">
+        <div class="sc-head warn">Scenario A — Base case<span class="sc-sub">$1.39/mo LTV · CAC $13.42 unchanged</span></div>
+        <div class="sc-body">
+          <div class="sc-row"><span class="sc-key">12-month LTV</span><span class="sc-v c-blue">$16.68</span></div>
+          <div class="sc-row"><span class="sc-key">Breakeven month</span><span class="sc-v c-amber">Month 10</span></div>
+          <div class="sc-row"><span class="sc-key">12-mo portfolio GP</span><span class="sc-v c-green">+$844</span></div>
+          <div class="sc-row"><span class="sc-key">LTV / CAC at 12 mo</span><span class="sc-v">1.24×</span></div>
+          <div class="sc-note">Marginally profitable at 12 months. Hold spend steady — scaling now before LTV is proven risks larger losses.</div>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-head good">Scenario B — Optimistic<span class="sc-sub">$2.50/mo LTV · CAC drops to $10 via scale</span></div>
+        <div class="sc-body">
+          <div class="sc-row"><span class="sc-key">12-month LTV</span><span class="sc-v c-green">$30.00</span></div>
+          <div class="sc-row"><span class="sc-key">Breakeven month</span><span class="sc-v c-green">Month 4–5</span></div>
+          <div class="sc-row"><span class="sc-key">12-mo portfolio GP</span><span class="sc-v c-green">+$10,000</span></div>
+          <div class="sc-row"><span class="sc-key">LTV / CAC at 12 mo</span><span class="sc-v c-green">3.0×</span></div>
+          <div class="sc-note">Driven by CPA cohort growth + improved targeting efficiency. Achievable if Mar trajectory holds and CAC keeps falling.</div>
+        </div>
+      </div>
+      <div class="sc-card">
+        <div class="sc-head bad">Scenario C — Conservative<span class="sc-sub">$1.00/mo LTV · CAC stays at $13.42</span></div>
+        <div class="sc-body">
+          <div class="sc-row"><span class="sc-key">12-month LTV</span><span class="sc-v c-red">$12.00</span></div>
+          <div class="sc-row"><span class="sc-key">Breakeven month</span><span class="sc-v c-red">Never (12 mo)</span></div>
+          <div class="sc-row"><span class="sc-key">12-mo portfolio GP</span><span class="sc-v c-red">−$370</span></div>
+          <div class="sc-row"><span class="sc-key">LTV / CAC at 12 mo</span><span class="sc-v c-red">0.89×</span></div>
+          <div class="sc-note">Player churn or low engagement pushes this. Reduce spend and focus on CPA conversion quality if this materialises.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INSIGHTS -->
+  <div class="sec">
+    <div class="sec-h">Key insights &amp; recommendations</div>
+    <div class="ins-grid">
+      <div class="ins warn">
+        <div class="ins-tag">CAC efficiency — watch closely</div>
+        <div class="ins-body">Cost per FTD dropped 45% from Feb ($20) to Mar ($11) as volume scaled. Target sub-$10 CAC to bring breakeven inside 6 months. Focus budget on the channels delivering Mar-level efficiency.</div>
+      </div>
+      <div class="ins good">
+        <div class="ins-tag">CPA cohort — highest lever</div>
+        <div class="ins-body">250 Hybrid-deal players (250) earn both a flat CPA fee ($2/player) and ongoing RevShare — $14.79 avg net revenue each vs. $0.01 for non-qualifying players. Growing the number of players who hit the CPA threshold is the single highest-impact action to improve LTV.</div>
+      </div>
+      <div class="ins good">
+        <div class="ins-tag">Volume trajectory — strong</div>
+        <div class="ins-body">FTDs +245%, deposits +374%, revenue +334% in one month. The ramp is steep and positive. April and May data will confirm whether this is sustained or a one-off spike.</div>
+      </div>
+      <div class="ins info">
+        <div class="ins-tag">Concentration risk</div>
+        <div class="ins-body">Top 5 players = 73% of net revenue. One player alone = 53%. LTV is highly skewed. Work with the operator to diversify value across the depositing base rather than relying on a small cluster.</div>
+      </div>
+      <div class="ins warn">
+        <div class="ins-tag">Negative-value players</div>
+        <div class="ins-body">93 players (12.5%) show negative net revenue — they won more than they wagered. Review promo and bonus exposure on these accounts. Worst case is −$801 from a single player.</div>
+      </div>
+      <div class="ins info">
+        <div class="ins-tag">Bet9ja comparison (same market)</div>
+        <div class="ins-body">Bet9ja NG is profitable with $15,961 GP on $13,844 ad spend (1.15× ROI) after an extended ramp. BetKing has higher per-player upside but needs 2–3 more months to confirm its trajectory.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div class="footer-note">Performix Media — Confidential. BetKing Nigeria. Affiliate export Jan–Apr 20 2026 + forecast PDF Feb–Mar 2026.</div>
+  <div class="footer-note" id="footerDate"></div>
+</div>
+
+<script>
+document.getElementById('footerDate').textContent = 'Generated ' + new Date().toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'});
+
+const GRID = { color: 'rgba(0,0,0,0.06)' };
+const TICK = { color: '#8391ad', font: { size: 11, family: 'DM Sans' } };
+
+/* MONTHLY */
+new Chart(document.getElementById('monthlyChart'), {
+  data: {
+    labels: ['February 2026','March 2026'],
+    datasets: [
+      { type:'bar', label:'Ad Spend',    data:[1180,2282],   backgroundColor:'rgba(99,115,177,0.2)', borderColor:'#6373b1', borderWidth:1.5, borderRadius:6, order:2 },
+      { type:'bar', label:'Revenue',     data:[185,803],     backgroundColor:'rgba(37,99,235,0.2)', borderColor:'#2563eb', borderWidth:1.5, borderRadius:6, order:2 },
+      { type:'bar', label:'Gross Profit',data:[-995,-1479],  backgroundColor:'rgba(230,57,80,0.2)', borderColor:'#e63950', borderWidth:1.5, borderRadius:6, order:2 },
+      { type:'line',label:'Cost/FTD ($)',data:[20,11], borderColor:'#d97706', borderWidth:2.5, pointBackgroundColor:'#d97706', pointRadius:6, pointBorderWidth:0, tension:0, yAxisID:'y2', fill:false, order:1 }
+    ]
+  },
+  options: {
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:true, position:'top', labels:{ color:'#3a4660', font:{size:11,family:'DM Sans'}, boxWidth:10, padding:16 } } },
+    scales:{
+      x:{ ticks:TICK, grid:{ display:false } },
+      y:{ ticks:{ ...TICK, callback:v=>(v<0?'-$':'$')+Math.abs(v).toLocaleString() }, grid:GRID },
+      y2:{ position:'right', ticks:{ color:'#d97706', font:{size:11,family:'DM Sans'}, callback:v=>'$'+v }, grid:{display:false} }
+    }
+  }
+});
+
+/* LTV PAYBACK */
+const mos = Array.from({length:13},(_,i)=>i);
+new Chart(document.getElementById('ltvChart'), {
+  type:'line',
+  data:{
+    labels: mos.map(m=>'Mo '+m),
+    datasets:[
+      { label:'Projected LTV', data:mos.map(m=>+(m*1.39).toFixed(2)), borderColor:'#0db87a', backgroundColor:'rgba(13,184,122,0.07)', fill:true, tension:0.35, borderWidth:2.5, pointBackgroundColor:'#0db87a', pointRadius:3 },
+      { label:'CAC ($13.42)',   data:mos.map(()=>13.42), borderColor:'#e63950', borderDash:[6,3], borderWidth:1.5, pointRadius:0, fill:false },
+      { label:'Observed',      data:[0,1.39,2.78,4.17,null,null,null,null,null,null,null,null,null], borderColor:'#2563eb', borderWidth:3, pointBackgroundColor:'#2563eb', pointBorderColor:'#fff', pointBorderWidth:2, pointRadius:5, fill:false }
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{ display:true, position:'top', labels:{ color:'#3a4660', font:{size:11,family:'DM Sans'}, boxWidth:10, padding:14 } } },
+    scales:{
+      x:{ ticks:TICK, grid:GRID },
+      y:{ beginAtZero:true, ticks:{ ...TICK, callback:v=>'$'+v.toFixed(0) }, grid:GRID }
+    }
+  }
+});
+
+/* FUNNEL */
+new Chart(document.getElementById('funnelChart'), {
+  type:'bar',
+  data:{
+    labels:['Deposits','Gross Revenue','Net Revenue','Commission'],
+    datasets:[{
+      data:[12333,5775,3704,1982],
+      backgroundColor:['rgba(37,99,235,0.18)','rgba(13,184,122,0.18)','rgba(13,184,122,0.3)','rgba(217,119,6,0.18)'],
+      borderColor:['#2563eb','#0db87a','#0db87a','#d97706'],
+      borderWidth:1.5, borderRadius:6
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false} },
+    scales:{
+      x:{ ticks:{ color:'#3a4660', font:{size:11,family:'DM Sans'} }, grid:{display:false} },
+      y:{ ticks:{ ...TICK, callback:v=>'$'+v.toLocaleString() }, grid:GRID }
+    }
+  }
+});
+
+/* SEGMENTS */
+new Chart(document.getElementById('segChart'), {
+  type:'bar',
+  data:{
+    labels:['Hybrid-deal players (250)','All players (745)','Non-qualifying (495)'],
+    datasets:[{
+      label:'Avg net revenue',
+      data:[14.79,4.97,0.01],
+      backgroundColor:['rgba(13,184,122,0.2)','rgba(37,99,235,0.2)','rgba(131,145,173,0.2)'],
+      borderColor:['#0db87a','#2563eb','#c0c8d8'],
+      borderWidth:1.5, borderRadius:6
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false} },
+    scales:{
+      x:{ ticks:{ color:'#3a4660', font:{size:11,family:'DM Sans'} }, grid:{display:false} },
+      y:{ ticks:{ ...TICK, callback:v=>'$'+v.toFixed(2) }, grid:GRID }
+    }
+  }
+});
+
+/* DISTRIBUTION */
+new Chart(document.getElementById('distChart'), {
+  type:'bar',
+  data:{
+    labels:['< $0','= $0','$0.01–$1','$1–$10','$10–$50','$50–$200','$200+'],
+    datasets:[{
+      data:[93,353,68,87,78,52,14],
+      backgroundColor:['rgba(230,57,80,0.2)','rgba(131,145,173,0.18)','rgba(37,99,235,0.15)','rgba(37,99,235,0.22)','rgba(13,184,122,0.18)','rgba(13,184,122,0.28)','rgba(13,184,122,0.45)'],
+      borderColor:['#e63950','#c0c8d8','#2563eb','#2563eb','#0db87a','#0db87a','#0db87a'],
+      borderWidth:1.5, borderRadius:5
+    }]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false} },
+    scales:{
+      x:{ ticks:{ color:'#3a4660', font:{size:10,family:'DM Sans'}, autoSkip:false, maxRotation:20 }, grid:{display:false} },
+      y:{ ticks:TICK, grid:GRID }
+    }
+  }
+});
+
+/* PROJECTION TABLE */
+const tbody = document.getElementById('projBody');
+for(let m=0; m<=12; m++){
+  const ltv = +(m*1.39).toFixed(2);
+  const gap = +(ltv-13.42).toFixed(2);
+  const cov = Math.min(100,+((ltv/13.42)*100).toFixed(1));
+  const gp  = Math.round((ltv-13.42)*258);
+  const isBE  = m===10;
+  const isNow = m===4;
+  const tr = document.createElement('tr');
+  if(isBE)  tr.className='row-be';
+  if(isNow) tr.className='row-now';
+  tr.innerHTML=`
+    <td>${m===0?'Launch':isNow?'▶ Now (est. mo 4)':isBE?'★ Breakeven':'Month '+m}</td>
+    <td>$${ltv.toFixed(2)}</td>
+    <td>$13.42</td>
+    <td style="color:${gap>=0?'#0db87a':'#e63950'}">${gap>=0?'+':''}$${gap.toFixed(2)}</td>
+    <td>${cov.toFixed(1)}%</td>
+    <td style="color:${gp>=0?'#0db87a':'#e63950'}">${gp>=0?'+':'-'}$${Math.abs(gp).toLocaleString()}</td>
+    <td style="text-align:left;font-family:'DM Sans',sans-serif;font-size:11px;color:${gap>=0?'#0db87a':m<=3?'#e63950':'#d97706'}">${gap>=0?'Profitable':m<=4?'Loss':'Recovering'}</td>
+  `;
+  tbody.appendChild(tr);
+}
+</script>
+</body>
+</html>
