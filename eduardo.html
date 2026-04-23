@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>When Does Betway Become Profitable? · PerformixMedia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{
+    --paper:#F1ECE1;
+    --paper-2:#E8E1D2;
+    --ink:#14110F;
+    --ink-soft:#3B3630;
+    --muted:#7A736A;
+    --rule:#CFC7B6;
+    --pos:#2F6B3F;
+    --pos-soft:#5C8C68;
+    --neg:#A62A1B;
+    --neg-soft:#C56156;
+    --gold:#9E7A31;
+    --navy:#1C2B3A;
+    --highlight:#F4E7C9;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif; font-weight:400;
+    line-height:1.6; font-size:16px; -webkit-font-smoothing:antialiased;
+  }
+  .page{max-width:1100px; margin:0 auto; padding:0 56px}
+
+  /* --- Hero --- */
+  .hero{
+    min-height:85vh; display:flex; flex-direction:column;
+    justify-content:center; padding:80px 0; border-bottom:1px solid var(--rule);
+    position:relative;
+  }
+  .masthead{
+    position:absolute; top:40px; left:0; right:0;
+    display:flex; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:0.14em; color:var(--muted);
+  }
+  .masthead .brand{color:var(--ink);font-weight:500}
+  .masthead .brand::before{content:"◆";color:var(--gold);margin-right:8px}
+
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:12px;
+    text-transform:uppercase; letter-spacing:0.24em; color:var(--gold);
+    margin-bottom:32px; display:flex; align-items:center; gap:12px;
+  }
+  .hero-eyebrow::before{
+    content:""; width:60px; height:1px; background:var(--gold);
+  }
+  h1.the-question{
+    font-family:'Fraunces', serif; font-weight:400;
+    font-size:clamp(52px, 8vw, 124px); line-height:0.95;
+    letter-spacing:-0.035em; color:var(--ink); max-width:16ch;
+    font-variation-settings:"opsz" 144;
+  }
+  h1.the-question em{font-style:italic; color:var(--gold)}
+
+  .the-answer{
+    margin-top:48px; padding-top:40px; border-top:2px solid var(--ink);
+    display:grid; grid-template-columns:auto 1fr; gap:48px; align-items:start;
+  }
+  .answer-label{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:0.2em; color:var(--neg);
+    white-space:nowrap; padding-top:10px;
+  }
+  .answer-text{
+    font-family:'Fraunces', serif; font-weight:300;
+    font-size:clamp(24px, 2.6vw, 34px); line-height:1.35;
+    color:var(--ink); font-style:italic;
+    max-width:46ch;
+  }
+  .answer-text strong{
+    font-style:normal; font-weight:600; color:var(--neg);
+  }
+  .answer-text .good{color:var(--pos); font-weight:500; font-style:normal}
+
+  /* --- Section --- */
+  section{padding:80px 0; border-bottom:1px solid var(--rule)}
+  .section-label{
+    font-family:'IBM Plex Mono', monospace; font-size:11px;
+    text-transform:uppercase; letter-spacing:0.2em; color:var(--muted);
+    margin-bottom:16px;
+  }
+  .section-label .roman{color:var(--gold);font-weight:500}
+  h2.section-title{
+    font-family:'Fraunces', serif; font-weight:400;
+    font-size:clamp(34px, 4.2vw, 54px); line-height:1.08;
+    letter-spacing:-0.02em; max-width:24ch; margin-bottom:28px;
+    font-variation-settings:"opsz" 96;
+  }
+  h2.section-title em{font-style:italic; color:var(--gold)}
+  .lede{
+    font-family:'Fraunces', serif; font-weight:300; font-size:21px;
+    line-height:1.5; color:var(--ink-soft); max-width:60ch;
+    margin-bottom:44px; border-left:2px solid var(--gold); padding-left:20px;
+  }
+
+  /* --- Empathy callout --- */
+  .empathy-note{
+    background:var(--paper-2);
+    padding:40px 48px;
+    margin:48px 0;
+    border:1px solid var(--rule);
+    max-width:700px;
+  }
+  .empathy-note .label{
+    font-family:'IBM Plex Mono', monospace; font-size:10px;
+    text-transform:uppercase; letter-spacing:0.2em; color:var(--gold);
+    margin-bottom:16px; font-weight:600;
+  }
+  .empathy-note p{
+    font-family:'Fraunces', serif; font-weight:300; font-style:italic;
+    font-size:19px; line-height:1.55; color:var(--ink-soft);
+  }
+
+  /* --- Timeline paths --- */
+  .timeline-paths{
+    margin-top:40px;
+    display:flex; flex-direction:column; gap:20px;
+  }
+  .tl-path{
+    display:grid; grid-template-columns:220px 1fr 180px;
+    gap:24px; align-items:center;
+    padding:24px 0; border-bottom:1px solid var(--rule);
+  }
+  .tl-path:last-child{border-bottom:none}
+  .tl-path.best{background:rgba(47,107,63,0.04); padding:24px 20px}
+  .tl-name{
+    font-family:'Fraunces', serif; font-weight:500; font-size:18px;
+    line-height:1.2; letter-spacing:-0.01em;
+  }
+  .tl-name .sub{
+    display:block; font-family:'IBM Plex Mono', monospace;
+    font-size:10px; color:var(--muted); margin-top:4px;
+    text-transform:uppercase; letter-spacing:0.1em; font-weight:400;
+    font-style:normal;
+  }
+  .tl-bar{
+    position:relative; height:44px; background:#ded6c5;
+    overflow:visible;
+  }
+  .tl-bar-inner{
+    position:absolute; top:0; bottom:0; left:0;
+    background:linear-gradient(90deg, var(--neg-soft), var(--gold));
+    display:flex; align-items:center; padding-left:12px;
+    color:white; font-family:'IBM Plex Mono', monospace;
+    font-size:11px; font-weight:500; letter-spacing:0.05em;
+  }
+  .tl-bar-inner.good{background:linear-gradient(90deg, var(--gold), var(--pos))}
+  .tl-bar-inner.bad{background:#8B1E12}
+  .tl-marker{
+    position:absolute; top:-8px; bottom:-8px;
+    width:2px; background:var(--ink);
+  }
+  .tl-marker::before{
+    content:""; position:absolute; top:-6px; left:-4px;
+    width:10px; height:10px; background:var(--ink);
+    transform:rotate(45deg);
+  }
+  .tl-marker::after{
+    content:attr(data-label); position:absolute; bottom:-24px;
+    left:50%; transform:translateX(-50%);
+    font-family:'IBM Plex Mono', monospace; font-size:10px;
+    color:var(--ink); font-weight:600; white-space:nowrap;
+    letter-spacing:0.05em;
+  }
+  .tl-verdict{
+    text-align:right; font-family:'IBM Plex Mono', monospace;
+    font-size:13px; font-weight:500;
+  }
+  .tl-verdict .date{
+    font-family:'Fraunces', serif; font-size:22px;
+    font-weight:500; color:var(--ink); display:block;
+    letter-spacing:-0.01em;
+  }
+  .tl-verdict .months{font-size:11px; color:var(--muted)}
+  .tl-verdict.never .date{color:var(--neg); font-style:italic}
+  .tl-verdict.best .date{color:var(--pos)}
+
+  .axis-label{
+    display:grid; grid-template-columns:220px 1fr 180px;
+    gap:24px; font-family:'IBM Plex Mono', monospace;
+    font-size:10px; color:var(--muted); text-transform:uppercase;
+    letter-spacing:0.15em; padding:12px 0;
+    border-bottom:2px solid var(--ink); margin-top:16px;
+  }
+  .axis-scale{
+    display:flex; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace; font-size:10px;
+    color:var(--muted); margin-top:32px;
+    padding-left:244px; padding-right:204px;
+  }
+
+  /* --- Big answer block --- */
+  .big-answer{
+    display:grid; grid-template-columns:1fr 1fr; gap:0;
+    margin-top:48px; border:2px solid var(--ink);
+  }
+  .big-answer > div{padding:40px 36px}
+  .big-answer .left{border-right:1px solid var(--rule); background:rgba(166,42,27,0.04)}
+  .big-answer .right{background:rgba(47,107,63,0.04)}
+  .ba-label{
+    font-family:'IBM Plex Mono', monospace; font-size:10px;
+    text-transform:uppercase; letter-spacing:0.2em;
+    margin-bottom:16px; font-weight:600;
+  }
+  .big-answer .left .ba-label{color:var(--neg)}
+  .big-answer .right .ba-label{color:var(--pos)}
+  .ba-title{
+    font-family:'Fraunces', serif; font-size:32px; font-weight:500;
+    line-height:1.15; margin-bottom:20px; letter-spacing:-0.015em;
+  }
+  .ba-title em{font-style:italic}
+  .big-answer .left .ba-title em{color:var(--neg)}
+  .big-answer .right .ba-title em{color:var(--pos)}
+  .ba-text{
+    font-size:15px; color:var(--ink-soft); line-height:1.6;
+  }
+  .ba-text strong{color:var(--ink); font-weight:600}
+
+  /* --- Chart block --- */
+  .chart-block{margin-top:48px}
+  .chart-header{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom:20px; padding-bottom:14px; border-bottom:1px solid var(--ink);
+  }
+  .chart-title{
+    font-family:'Fraunces', serif; font-weight:500; font-size:22px;
+    letter-spacing:-0.01em;
+  }
+  .chart-meta{
+    font-family:'IBM Plex Mono', monospace; font-size:10px;
+    text-transform:uppercase; letter-spacing:0.14em; color:var(--muted);
+  }
+  .chart-wrap{
+    background:var(--paper-2); padding:32px; border:1px solid var(--rule);
+  }
+  .chart-wrap.tall{min-height:500px}
+  .chart-wrap canvas{max-height:500px}
+  .chart-caption{
+    margin-top:14px; font-size:13px; color:var(--muted);
+    font-style:italic; max-width:82ch;
+  }
+
+  /* --- What it takes boxes --- */
+  .requirements{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:16px;
+    margin-top:32px;
+  }
+  .req{
+    padding:28px 24px; border:1px solid var(--rule);
+    background:var(--paper-2);
+  }
+  .req .n{
+    font-family:'Fraunces', serif; font-size:42px; font-weight:300;
+    line-height:1; color:var(--gold); font-style:italic; margin-bottom:12px;
+  }
+  .req h4{
+    font-family:'Fraunces', serif; font-size:20px; font-weight:500;
+    line-height:1.2; margin-bottom:10px;
+  }
+  .req .change{
+    font-family:'IBM Plex Mono', monospace; font-size:13px;
+    color:var(--neg); margin-bottom:14px; font-weight:500;
+    padding:8px 12px; background:rgba(166,42,27,0.08); display:inline-block;
+  }
+  .req p{font-size:14px; color:var(--ink-soft); line-height:1.55}
+
+  /* --- Two col --- */
+  .two-col{
+    display:grid; grid-template-columns:1fr 1fr; gap:48px;
+    align-items:start; margin-top:40px;
+  }
+  .col-prose h3{
+    font-family:'Fraunces', serif; font-weight:500; font-size:24px;
+    margin-bottom:14px; letter-spacing:-0.01em; line-height:1.2;
+  }
+  .col-prose p{margin-bottom:14px; color:var(--ink-soft); max-width:52ch}
+  .col-prose p strong{color:var(--ink); font-weight:600}
+
+  /* --- Pull --- */
+  .key-stats{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:0;
+    margin:40px 0; border-top:2px solid var(--ink); border-bottom:2px solid var(--ink);
+  }
+  .key-stat{padding:24px 20px; border-right:1px solid var(--rule)}
+  .key-stat:last-child{border-right:none}
+  .key-stat .label{
+    font-family:'IBM Plex Mono', monospace; font-size:10px;
+    text-transform:uppercase; letter-spacing:0.15em; color:var(--muted);
+    margin-bottom:10px;
+  }
+  .key-stat .value{
+    font-family:'Fraunces', serif; font-size:36px; font-weight:500;
+    line-height:1; letter-spacing:-0.02em;
+  }
+  .key-stat .value.pos{color:var(--pos)}
+  .key-stat .value.neg{color:var(--neg)}
+  .key-stat .value.gold{color:var(--gold)}
+  .key-stat .sub{font-size:11px; color:var(--muted); margin-top:6px;
+    font-family:'IBM Plex Mono', monospace}
+
+  /* --- Close --- */
+  .close-block{
+    margin-top:64px; padding:48px 56px;
+    border:1px solid var(--ink); background:var(--highlight);
+  }
+  .close-block h3{
+    font-family:'Fraunces', serif; font-size:28px; font-weight:500;
+    margin-bottom:16px; line-height:1.2; letter-spacing:-0.01em;
+  }
+  .close-block p{
+    font-family:'Fraunces', serif; font-style:italic;
+    font-size:17px; line-height:1.55; color:var(--ink-soft); max-width:62ch;
+    margin-bottom:12px;
+  }
+
+  footer{
+    padding:48px 0 64px; font-family:'IBM Plex Mono', monospace;
+    font-size:11px; text-transform:uppercase; letter-spacing:0.14em;
+    color:var(--muted); display:flex; justify-content:space-between;
+    flex-wrap:wrap; gap:16px;
+  }
+  footer .mark{color:var(--gold)}
+
+  @media (max-width: 900px){
+    .page{padding:0 24px}
+    section{padding:56px 0}
+    .the-answer{grid-template-columns:1fr; gap:16px}
+    .tl-path{grid-template-columns:1fr; gap:12px}
+    .tl-verdict{text-align:left}
+    .axis-label, .axis-scale{display:none}
+    .big-answer{grid-template-columns:1fr}
+    .big-answer .left{border-right:none; border-bottom:1px solid var(--rule)}
+    .requirements{grid-template-columns:1fr}
+    .two-col{grid-template-columns:1fr; gap:24px}
+    .key-stats{grid-template-columns:repeat(2,1fr)}
+    .key-stat:nth-child(-n+2){border-bottom:1px solid var(--rule)}
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- =============== HERO =============== -->
+<div class="hero">
+  <div class="masthead">
+    <div class="brand">PerformixMedia · Traffic Analytics</div>
+    <div>Report Nº 04 · 22 April 2026</div>
+  </div>
+
+  <div class="hero-eyebrow">The Question You Asked</div>
+
+  <h1 class="the-question">When does this <em>become profitable?</em></h1>
+
+  <div class="the-answer">
+    <div class="answer-label">The honest answer</div>
+    <div class="answer-text">
+      Under current behaviour — <strong>it doesn't</strong>. On the best realistic execution path, somewhere around <span class="good">July to November 2027</span>. Roughly <span class="good">15 to 19 months from today</span>. And only if specific things change now.
+    </div>
+  </div>
+</div>
+
+<!-- =============== I. EMOTIONAL CONTEXT =============== -->
+<section id="context">
+  <div class="section-label"><span class="roman">I.</span> First, A Reality Check</div>
+  <h2 class="section-title">The early cohorts looked good. That wasn't wrong — it just <em>wasn't enough</em>.</h2>
+  <div class="lede">November acquired players at €11 CPA and is on track to recover 92% of that spend within 12 months. December looked similar. If the world had stayed that way, this would be a different conversation. But in January the CPA began climbing, and by March it had nearly doubled. That is what broke the model.</div>
+
+  <div class="empathy-note">
+    <div class="label">Worth saying plainly</div>
+    <p>The intuition that this was close to working was reasonable. November's cohort is, in fact, close to breaking even — it just needs three more months. The problem is that each new month we've been adding more expensive cohorts on top that need far more time and far more revenue to recover. So the portfolio as a whole keeps drifting further from profitability, even as individual cohorts mature.</p>
+  </div>
+
+  <div class="key-stats">
+    <div class="key-stat">
+      <div class="label">Nov cohort · nearly there</div>
+      <div class="value pos">92<span style="font-size:18px">%</span></div>
+      <div class="sub">of CPA recovered by M12 · breaks even ~M15</div>
+    </div>
+    <div class="key-stat">
+      <div class="label">Mar cohort · far behind</div>
+      <div class="value neg">41<span style="font-size:18px">%</span></div>
+      <div class="sub">of CPA recovered by M12 · may never break even</div>
+    </div>
+    <div class="key-stat">
+      <div class="label">Structural gap · today</div>
+      <div class="value neg">€5.32</div>
+      <div class="sub">per FTD · CPA minus projected 12mo LTV</div>
+    </div>
+    <div class="key-stat">
+      <div class="label">Current portfolio position</div>
+      <div class="value neg">−€49<span style="font-size:18px">k</span></div>
+      <div class="sub">unrecovered spend on first 5 cohorts</div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== II. THE DATES =============== -->
+<section id="dates">
+  <div class="section-label"><span class="roman">II.</span> The Specific Answer</div>
+  <h2 class="section-title">Eight paths, eight different answers — ranging from <em>"never"</em> to <em>"eleven months from now"</em>.</h2>
+  <div class="lede">Each bar below shows how long it takes the cumulative portfolio position to reach €0 under different combinations of CPA and LTV. Today is April 2026. The marker on each bar shows when that path reaches break-even. Paths with no marker never cross zero within four years.</div>
+
+  <div class="axis-label">
+    <div>Scenario</div>
+    <div>Timeline · Apr 2026 → Apr 2030</div>
+    <div style="text-align:right">Break-even date</div>
+  </div>
+
+  <div class="timeline-paths">
+
+    <!-- Status Quo -->
+    <div class="tl-path">
+      <div class="tl-name">Status Quo
+        <span class="sub">€20 CPA · 900 FTDs/mo · no LTV lift</span></div>
+      <div class="tl-bar">
+        <div class="tl-bar-inner bad" style="width:100%">Loss widens continuously — no break-even in horizon</div>
+      </div>
+      <div class="tl-verdict never">
+        <span class="date">Never</span>
+        <span class="months">−€254k by 24mo</span>
+      </div>
+    </div>
+
+    <!-- Moderate -->
+    <div class="tl-path">
+      <div class="tl-name">Moderate CPA Cut
+        <span class="sub">€15 CPA · 900 FTDs/mo · no LTV lift</span></div>
+      <div class="tl-bar">
+        <div class="tl-bar-inner bad" style="width:100%">Loss still widens — CPA exceeds LTV</div>
+      </div>
+      <div class="tl-verdict never">
+        <span class="date">Never</span>
+        <span class="months">−€146k by 24mo</span>
+      </div>
+    </div>
+
+    <!-- Optimistic -->
+    <div class="tl-path">
+      <div class="tl-name">Optimistic CPA Cut
+        <span class="sub">€12 CPA · 900 FTDs/mo · no LTV lift</span></div>
+      <div class="tl-bar">
+        <div class="tl-bar-inner bad" style="width:100%">Loss stabilises around −€83k but never reverses</div>
+      </div>
+      <div class="tl-verdict never">
+        <span class="date">Never</span>
+        <span class="months">floors at −€83k</span>
+      </div>
+    </div>
+
+    <!-- Aggressive -->
+    <div class="tl-path">
+      <div class="tl-name">Aggressive CPA Cut
+        <span class="sub">€10 CPA · 900 FTDs/mo · no LTV lift</span></div>
+      <div class="tl-bar">
+        <div class="tl-bar-inner" style="width:94%">Slow climb, crosses zero far in future</div>
+        <div class="tl-marker" style="left:94%" data-label="Jan 2030"></div>
+      </div>
+      <div class="tl-verdict">
+        <span class="date">Jan 2030</span>
+        <span class="months">~3 years, 9 months</span>
+      </div>
+    </div>
+
+    <!-- Hybrid -->
+    <div class="tl-path">
+      <div class="tl-name">Hybrid Execution
+        <span class="sub">€12 CPA · 700 FTDs/mo · +40% LTV</span></div>
+      <div class="tl-bar">
+        <div class="tl-bar-inner" style="width:56%">Bleed slows, then reverses</div>
+        <div class="tl-marker" style="left:56%" data-label="Jun 2028"></div>
+      </div>
+      <div class="tl-verdict">
+        <span class="date">Jun 2028</span>
+        <span class="months">~2 years, 2 months</span>
+      </div>
+    </div>
+
+    <!-- Path C -->
+    <div class="tl-path best">
+      <div class="tl-name">Path C · Source Pruning
+        <span class="sub">€10 CPA · 600 FTDs/mo · +35% LTV</span></div>
+      <div class="tl-bar">
+        <div class="tl-bar-inner good" style="width:40%">Immediate improvement, steady climb</div>
+        <div class="tl-marker" style="left:40%" data-label="Nov 2027"></div>
+      </div>
+      <div class="tl-verdict best">
+        <span class="date">Nov 2027</span>
+        <span class="months">~1 year, 7 months</span>
+      </div>
+    </div>
+
+    <!-- Path C+ -->
+    <div class="tl-path best">
+      <div class="tl-name">Path C+ · Prune + Renegotiate
+        <span class="sub">€10 CPA · 600 FTDs/mo · +50% LTV</span></div>
+      <div class="tl-bar">
+        <div class="tl-bar-inner good" style="width:32%">Bleed reverses in ~4 months; break-even mid-2027</div>
+        <div class="tl-marker" style="left:32%" data-label="Jul 2027"></div>
+      </div>
+      <div class="tl-verdict best">
+        <span class="date">Jul 2027</span>
+        <span class="months">~1 year, 3 months</span>
+      </div>
+    </div>
+
+    <!-- Miracle -->
+    <div class="tl-path">
+      <div class="tl-name">Miracle Case
+        <span class="sub">€8 CPA · 600 FTDs/mo · +60% LTV</span></div>
+      <div class="tl-bar">
+        <div class="tl-bar-inner good" style="width:23%">Steep recovery trajectory</div>
+        <div class="tl-marker" style="left:23%" data-label="Mar 2027"></div>
+      </div>
+      <div class="tl-verdict">
+        <span class="date">Mar 2027</span>
+        <span class="months">~11 months — aspirational</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="axis-scale">
+    <span>Today · Apr 26</span>
+    <span>Apr 27</span>
+    <span>Apr 28</span>
+    <span>Apr 29</span>
+    <span>Apr 30</span>
+  </div>
+</section>
+
+<!-- =============== III. THE CHART =============== -->
+<section id="trajectories">
+  <div class="section-label"><span class="roman">III.</span> The Trajectories, Visualised</div>
+  <h2 class="section-title">Four of these curves cross zero. Four don't.</h2>
+  <div class="lede">The horizontal black line is break-even — the point at which cumulative revenue equals cumulative spend (including the €49k legacy deficit). Curves that cross above the line are profitable from that date forward. Curves that don't are indefinite losses.</div>
+
+  <div class="chart-block">
+    <div class="chart-header">
+      <div class="chart-title">Cumulative Portfolio Position — All Paths, 36 Months</div>
+      <div class="chart-meta">Fig. 01 — €, starting at today's −€49k</div>
+    </div>
+    <div class="chart-wrap tall">
+      <canvas id="trajectoryChart"></canvas>
+    </div>
+    <div class="chart-caption">Paths that remain below the zero line are structurally unprofitable — they never recover the initial investment. The three upper lines all hinge on a single shared assumption: that pruning weak traffic sources simultaneously reduces CPA and lifts blended LTV.</div>
+  </div>
+</section>
+
+<!-- =============== IV. WHAT IT TAKES =============== -->
+<section id="requirements">
+  <div class="section-label"><span class="roman">IV.</span> What The Realistic Path Requires</div>
+  <h2 class="section-title">Path C is the path. Here is everything that must change for it to work.</h2>
+  <div class="lede">Path C isn't a guess — it is what the numbers require. CPA must fall, LTV must rise, and volume will likely come down as bad sources are cut. Each of these three moves is necessary. None is sufficient on its own.</div>
+
+  <div class="requirements">
+    <div class="req">
+      <div class="n">01</div>
+      <h4>CPA falls to €10</h4>
+      <div class="change">from €15.58 · −36%</div>
+      <p>Achievable by cutting the 1–2 traffic sources that have been driving the recent cost inflation. Likely the sources that also deliver the lowest-quality players — which is why cutting them helps CPA and LTV simultaneously.</p>
+    </div>
+    <div class="req">
+      <div class="n">02</div>
+      <h4>Blended LTV rises to €14</h4>
+      <div class="change">from €10.26 · +36%</div>
+      <p>Happens automatically when bad sources are removed: the remaining volume is concentrated in better-performing sources. Could also be supported by negotiating a higher revshare percentage with Betway using the source-level LTV data as leverage.</p>
+    </div>
+    <div class="req">
+      <div class="n">03</div>
+      <h4>Volume drops to 600 FTDs/mo</h4>
+      <div class="change">from ~900 · −33%</div>
+      <p>This is the uncomfortable part. Cutting expensive sources will reduce total volume. This is fine — it is better to acquire 600 FTDs profitably than 900 at a loss. Volume can be grown back later from a profitable base.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =============== V. HONEST VS WISHFUL =============== -->
+<section id="honest">
+  <div class="section-label"><span class="roman">V.</span> Two Ways To Read This</div>
+  <h2 class="section-title">The honest version, <em>and</em> the better news nested inside it.</h2>
+
+  <div class="big-answer">
+    <div class="left">
+      <div class="ba-label">The Honest Version</div>
+      <div class="ba-title">Not in <em>2026</em>. Probably not in the first half of <em>2027</em> either.</div>
+      <div class="ba-text">
+        Even under the realistic best case, the portfolio stays in the red through all of 2026 and most of 2027. Monthly cash flow doesn't turn positive on the whole portfolio until roughly Q3 2027. The €49k already-lost amount is not recoverable quickly under any realistic scenario — it gets paid back over roughly <strong>15–24 months</strong> of disciplined execution.
+                <br><br>
+        And if nothing changes, it is genuinely "never." Not a rhetorical never — an arithmetic one. At a €5.32 per-FTD gap, more volume is more loss.
+      </div>
+    </div>
+    <div class="right">
+      <div class="ba-label">The Nested Good News</div>
+      <div class="ba-title">Individual <em>new cohorts</em> can be profitable much sooner than the <em>portfolio</em>.</div>
+      <div class="ba-text">
+        The €49k legacy deficit is sunk. New cohorts acquired under Path C economics (€10 CPA, €14 LTV) would be <strong>profitable within their own 6–8 month lifecycle</strong>. That means within Q4 2026 we could be looking at each monthly cohort being individually profitable — even while the overall portfolio is still paying off legacy.
+        <br><br>
+        That's the real operational milestone to target: <strong>positive contribution margin on new acquisitions before end of 2026</strong>. That's what proves the model works; the portfolio zero-line is just when the math catches up.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============== VI. WHAT HAPPENS IF YOU DON'T ACT =============== -->
+<section id="cost-of-waiting">
+  <div class="section-label"><span class="roman">VI.</span> The Cost of Waiting</div>
+  <h2 class="section-title">Every month of delay costs roughly <em>€9,000</em>.</h2>
+  <div class="lede">The current trajectory is not neutral — it actively destroys value month by month. Here is the difference between acting now vs. acting six months from now, assuming the same eventual execution.</div>
+
+  <div class="two-col">
+    <div class="col-prose">
+      <h3>Act now (May 2026)</h3>
+      <p>Source pruning executed in May. CPA lands at €10, LTV rises to €14 over Q3. New cohorts from June onward are structurally profitable.</p>
+      <p>Portfolio break-even: <strong>around November 2027</strong>.<br>Total additional loss before break-even: approximately <strong>€49k</strong> (matching today's legacy).</p>
+    </div>
+    <div class="col-prose">
+      <h3>Act in October 2026</h3>
+      <p>Six more months of status-quo acquisition at €20 CPA. During that window, roughly <strong>€53k of additional loss</strong> accumulates. Source pruning still works once executed — but now it has to pay down €102k of legacy rather than €49k.</p>
+      <p>Portfolio break-even: <strong>pushed to approximately May 2028</strong>.<br>Net cost of six-month delay: <strong>~€53k</strong>, and six additional months to recoup.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =============== VII. CLOSE =============== -->
+<section id="close">
+  <div class="section-label"><span class="roman">VII.</span> To Close</div>
+  <h2 class="section-title">This was a harder answer than you were hoping for. That doesn't make it the wrong answer.</h2>
+
+  <div class="close-block">
+    <h3>What I'd tell your boss, in one paragraph</h3>
+    <p>The November and December cohorts were performing well and a profitable account was within reach. Between January and March, CPA rose from €11 to over €20 while revenue per player stayed flat. That turned every new acquisition into a loss-maker. Continuing on autopilot, the portfolio never reaches profit. But if we act now — specifically, cutting the 1–2 traffic sources that caused the CPA inflation and likely also brought the weakest players — we can put new cohorts into individual profit by Q4 2026 and reach portfolio break-even around <strong>mid-to-late 2027</strong>. Delay costs roughly €9k per month.</p>
+    <p style="margin-top:20px">The diagnosis is sharp. The fix is well-defined. The execution window is open. But the €49k already spent is gone, and no amount of patience with current-behaviour economics brings it back.</p>
+  </div>
+</section>
+
+<footer>
+  <div><span class="mark">◆</span> PerformixMedia — Internal · Traffic Analytics Desk</div>
+  <div>Report 04 · Path to Profitability · April 2026</div>
+  <div>Best realistic break-even: Nov 2027 · ~19 months</div>
+</footer>
+
+</div>
+
+<script>
+Chart.defaults.font.family = "'IBM Plex Sans', sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = '#3B3630';
+Chart.defaults.borderColor = '#CFC7B6';
+
+const INK='#14110F', MUTED='#7A736A', RULE='#CFC7B6';
+const POS='#2F6B3F', NEG='#A62A1B', GOLD='#9E7A31', NAVY='#1C2B3A';
+const PAPER2='#E8E1D2';
+
+// Monthly labels for 36 months starting Apr 2026
+const labels36 = [];
+const base = new Date(2026, 3, 1); // April 2026
+for (let i = 0; i <= 36; i++) {
+  const d = new Date(base.getFullYear(), base.getMonth() + i, 1);
+  labels36.push(d.toLocaleDateString('en-US', {month:'short', year:'2-digit'}));
+}
+
+// Trajectory data from simulation (position in € at each month end)
+const statusQuo = [-49234, -60179, -70404, -80171, -89701, -98973, -108025, -116892, -125598, -134168, -142622, -150978, -159250, -167450, -175590, -183679, -191721, -199716, -207665, -215569, -223428, -231243, -239012, -246737, -254416, -262051, -269640, -277185, -284684, -292138, -299548, -306912, -314232, -321506, -328736, -335920, -343060];
+
+const moderate = [-49234, -55679, -61404, -66671, -71701, -76473, -81025, -85392, -89598, -93668, -97622, -101478, -105250, -108950, -112590, -116179, -119721, -123216, -126665, -130069, -133428, -136743, -140012, -143237, -146416, -149551, -152640, -155685, -158684, -161638, -164548, -167412, -170232, -173006, -175736, -178420, -181060];
+
+const optimistic = [-49234, -52979, -56004, -58571, -60901, -62973, -64825, -66492, -67998, -69368, -70622, -71778, -72850, -73850, -74790, -75679, -76521, -77316, -78065, -78769, -79428, -80043, -80612, -81137, -81616, -82051, -82440, -82785, -83084, -83338, -83548, -83712, -83832, -83906, -83936, -83920, -83860];
+
+const aggressive = [-49234, -51179, -52404, -53171, -53701, -53973, -54025, -53892, -53598, -53168, -52622, -51978, -51250, -50450, -49590, -48679, -47721, -46716, -45665, -44569, -43428, -42243, -41012, -39737, -38416, -37051, -35640, -34185, -32684, -31138, -29548, -27912, -26232, -24506, -22736, -20920, -19060];
+
+const pathC = [-49234, -48279, -46797, -45061, -43259, -41253, -39072, -36743, -34285, -31718, -29059, -26321, -23516, -20655, -17745, -14794, -11806, -8778, -5711, -2605, 542, 3724, 6937, 10180, 13452, 16755, 20087, 23450, 26843, 30265, 33718, 37200, 40713, 44256, 47828, 51431, 55063];
+
+const pathCplus = [-49234, -48179, -46404, -44171, -41701, -38973, -36025, -32892, -29598, -26168, -22622, -18978, -15250, -11450, -7590, -3679, 279, 4284, 8335, 12431, 16572, 20752, 24966, 29209, 33483, 37787, 42121, 46485, 50878, 55302, 59756, 64240, 68754, 73298, 77871, 82475, 87109];
+
+const hybrid = [-49234, -50490, -50854, -50580, -49916, -48947, -47717, -46269, -44632, -42834, -40901, -38851, -36702, -34469, -32164, -29798, -27378, -24904, -22379, -19804, -17180, -14513, -11809, -9070, -6297, -3488, -644, 2235, 5149, 8097, 11081, 14100, 17154, 20243, 23366, 26525, 29719];
+
+new Chart(document.getElementById('trajectoryChart'), {
+  type:'line',
+  data:{
+    labels: labels36,
+    datasets:[
+      {label:'Status Quo (€20 CPA)', data:statusQuo,
+       borderColor:NEG, borderWidth:2.5, tension:0.1,
+       pointRadius:0, pointHoverRadius:6, fill:false},
+      {label:'Moderate (€15 CPA)', data:moderate,
+       borderColor:'#C56156', borderWidth:2, tension:0.1,
+       pointRadius:0, pointHoverRadius:6, fill:false, borderDash:[6,3]},
+      {label:'Optimistic (€12 CPA)', data:optimistic,
+       borderColor:'#B8903F', borderWidth:2, tension:0.1,
+       pointRadius:0, pointHoverRadius:6, fill:false, borderDash:[6,3]},
+      {label:'Aggressive (€10 CPA)', data:aggressive,
+       borderColor:GOLD, borderWidth:2, tension:0.1,
+       pointRadius:0, pointHoverRadius:6, fill:false},
+      {label:'Hybrid Execution', data:hybrid,
+       borderColor:'#5C8C68', borderWidth:2, tension:0.1,
+       pointRadius:0, pointHoverRadius:6, fill:false, borderDash:[4,3]},
+      {label:'Path C (recommended)', data:pathC,
+       borderColor:POS, borderWidth:3.5, tension:0.1,
+       pointRadius:0, pointHoverRadius:7, fill:false},
+      {label:'Path C+ (best realistic)', data:pathCplus,
+       borderColor:'#1C5A2C', borderWidth:3, tension:0.1,
+       pointRadius:0, pointHoverRadius:6, fill:false, borderDash:[2,3]},
+      {label:'Break-even', data:Array(37).fill(0),
+       borderColor:INK, borderWidth:1.5, borderDash:[2,4],
+       pointRadius:0, fill:false}
+    ]
+  },
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    interaction:{mode:'index', intersect:false},
+    plugins:{
+      legend:{position:'bottom', labels:{usePointStyle:true, padding:14, font:{family:"'IBM Plex Mono'",size:10}}},
+      tooltip:{
+        backgroundColor:INK, titleColor:'#F1ECE1', bodyColor:'#F1ECE1',
+        titleFont:{family:"'Fraunces'", size:14}, bodyFont:{family:"'IBM Plex Mono'", size:11},
+        padding:12, borderColor:GOLD, borderWidth:1,
+        callbacks:{label:(c)=>`${c.dataset.label}: €${(c.parsed.y/1000).toFixed(1)}k`}
+      }
+    },
+    scales:{
+      y:{
+        grid:{color:RULE, lineWidth:0.5}, border:{color:INK},
+        ticks:{callback:(v)=>'€'+(v/1000).toFixed(0)+'k', font:{family:"'IBM Plex Mono'"}},
+        title:{display:true, text:'Cumulative portfolio position (€)', color:MUTED, font:{family:"'IBM Plex Mono'",size:10}}
+      },
+      x:{
+        grid:{display:false}, border:{color:INK},
+        ticks:{
+          font:{family:"'IBM Plex Mono'", size:10, weight:'500'},
+          maxRotation:45, minRotation:45,
+          callback:function(value, index){
+            // Show every 3rd month label
+            return index % 3 === 0 ? this.getLabelForValue(value) : '';
+          }
+        }
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
