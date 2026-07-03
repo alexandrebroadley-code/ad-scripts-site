@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Placement Desk — Ad Deal Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#10151f;
+    --panel:#171e2b;
+    --panel-2:#1d2635;
+    --line:#2a3547;
+    --text:#e8edf5;
+    --muted:#8b97ab;
+    --amber:#f2a93b;
+    --amber-dim:#8a6120;
+    --good:#4cc38a;
+    --warn:#f2a93b;
+    --bad:#e5654f;
+    --link:#7db3f0;
+    --radius:12px;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{background:var(--ink)}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    color:var(--text);
+    background:
+      radial-gradient(1200px 500px at 80% -10%, rgba(242,169,59,.06), transparent 60%),
+      var(--ink);
+    min-height:100vh;
+    padding:28px 20px 80px;
+  }
+  .wrap{max-width:1080px;margin:0 auto}
+
+  /* ---------- header ---------- */
+  header{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+  .brand h1{font-family:'Sora',sans-serif;font-size:26px;font-weight:700;letter-spacing:-.02em}
+  .brand h1 span{color:var(--amber)}
+  .brand p{color:var(--muted);font-size:13px;margin-top:4px}
+  .btn{
+    font-family:'Inter',sans-serif;font-weight:600;font-size:14px;
+    border:1px solid var(--line);border-radius:10px;background:var(--panel-2);
+    color:var(--text);padding:10px 16px;cursor:pointer;transition:.15s;
+  }
+  .btn:hover{border-color:var(--amber-dim);background:#232d3f}
+  .btn:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+  .btn.primary{background:var(--amber);border-color:var(--amber);color:#1a1206}
+  .btn.primary:hover{filter:brightness(1.08)}
+  .btn.danger:hover{border-color:var(--bad);color:var(--bad)}
+  .btn.small{padding:6px 12px;font-size:12.5px;border-radius:8px}
+
+  /* ---------- totals strip ---------- */
+  .totals{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;background:var(--line);border:1px solid var(--line);
+    border-radius:var(--radius);overflow:hidden;margin-bottom:26px;
+  }
+  .totals div{background:var(--panel);padding:14px 16px}
+  .totals .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .totals .val{font-family:var(--mono);font-size:20px;font-weight:600;font-variant-numeric:tabular-nums}
+  .totals .val.amber{color:var(--amber)}
+
+  /* ---------- forms ---------- */
+  .panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;margin-bottom:26px;
+  }
+  .panel h2{font-family:'Sora',sans-serif;font-size:16px;margin-bottom:16px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+  label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px;font-weight:500}
+  input,select{
+    width:100%;background:var(--ink);border:1px solid var(--line);border-radius:8px;
+    color:var(--text);padding:9px 11px;font-size:14px;font-family:'Inter',sans-serif;
+  }
+  input:focus,select:focus{outline:none;border-color:var(--amber-dim)}
+  .form-actions{display:flex;gap:10px;margin-top:18px}
+  .hint{font-size:12px;color:var(--muted);margin-top:10px}
+  .hidden{display:none}
+
+  /* ---------- deal cards ---------- */
+  .deal{
+    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+    padding:20px;margin-bottom:16px;
+  }
+  .deal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+  .deal-name{font-family:'Sora',sans-serif;font-size:18px;font-weight:600}
+  .deal-name a{color:var(--link);text-decoration:none;font-size:12.5px;font-weight:500;margin-left:10px}
+  .deal-name a:hover{text-decoration:underline}
+  .badge{
+    display:inline-block;font-size:11px;font-weight:600;letter-spacing:.04em;
+    padding:4px 10px;border-radius:999px;border:1px solid;
+  }
+  .badge.good{color:var(--good);border-color:rgba(76,195,138,.4);background:rgba(76,195,138,.08)}
+  .badge.warn{color:var(--warn);border-color:rgba(242,169,59,.4);background:rgba(242,169,59,.08)}
+  .badge.bad{color:var(--bad);border-color:rgba(229,101,79,.4);background:rgba(229,101,79,.08)}
+  .badge.neutral{color:var(--muted);border-color:var(--line);background:var(--panel-2)}
+
+  .stats{
+    display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:14px;margin:18px 0 14px;
+  }
+  .stat .k{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  .stat .v{font-family:var(--mono);font-size:16px;font-weight:500;font-variant-numeric:tabular-nums}
+  .stat .v.amber{color:var(--amber)}
+  .stat .sub{font-size:11px;color:var(--muted);margin-top:2px;font-family:var(--mono)}
+
+  /* burn bar — spend vs budget with pacing marker */
+  .burn{margin:6px 0 14px}
+  .burn-track{
+    position:relative;height:14px;border-radius:7px;background:var(--ink);
+    border:1px solid var(--line);overflow:visible;
+  }
+  .burn-fill{
+    height:100%;border-radius:7px 0 0 7px;
+    background:linear-gradient(90deg,var(--amber-dim),var(--amber));
+    transition:width .4s ease;
+  }
+  .burn-fill.over{background:linear-gradient(90deg,#8a3d2e,var(--bad))}
+  .pace-mark{
+    position:absolute;top:-5px;bottom:-5px;width:2px;background:var(--text);
+    opacity:.85;border-radius:2px;
+  }
+  .pace-mark::after{
+    content:'target';position:absolute;top:-16px;left:50%;transform:translateX(-50%);
+    font-size:9.5px;letter-spacing:.05em;color:var(--muted);font-family:var(--mono);
+  }
+  .burn-legend{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:6px;font-family:var(--mono)}
+
+  .deal-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:14px}
+  .updated{font-size:12px;color:var(--muted)}
+  .deal-actions{display:flex;gap:8px;flex-wrap:wrap}
+
+  .history{margin-top:12px;font-size:12px;color:var(--muted)}
+  .history table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px}
+  .history th{text-align:left;color:var(--muted);font-weight:500;padding:4px 8px;border-bottom:1px solid var(--line)}
+  .history td{padding:4px 8px;border-bottom:1px solid rgba(42,53,71,.5);color:var(--text)}
+  .history summary{cursor:pointer;font-weight:500}
+
+  .empty{
+    text-align:center;padding:60px 20px;border:1px dashed var(--line);
+    border-radius:var(--radius);color:var(--muted);
+  }
+  .empty strong{color:var(--text);display:block;font-family:'Sora',sans-serif;font-size:16px;margin-bottom:6px}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
+    padding:10px 18px;font-size:13px;box-shadow:0 8px 30px rgba(0,0,0,.5);
+    opacity:0;pointer-events:none;transition:.25s;
+  }
+  .toast.show{opacity:1}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <h1>Placement <span>Desk</span></h1>
+      <p>Track your ad space deals — CPM, budget burn and pacing per site.</p>
+    </div>
+    <button class="btn primary" id="btnAdd">+ Add deal</button>
+  </header>
+
+  <div class="totals" id="totals"></div>
+
+  <!-- add / edit deal form -->
+  <div class="panel hidden" id="dealForm">
+    <h2 id="formTitle">New deal</h2>
+    <div class="grid">
+      <div>
+        <label for="fName">Site name</label>
+        <input id="fName" placeholder="e.g. tvsa.co.za">
+      </div>
+      <div>
+        <label for="fUrl">Analytics URL</label>
+        <input id="fUrl" placeholder="https://analytics.pmx.bet/...">
+      </div>
+      <div>
+        <label for="fCur">Currency</label>
+        <select id="fCur">
+          <option value="€">€ EUR</option>
+          <option value="$">$ USD</option>
+          <option value="R">R ZAR</option>
+          <option value="₦">₦ NGN</option>
+          <option value="R$">R$ BRL</option>
+          <option value="KSh">KSh KES</option>
+        </select>
+      </div>
+      <div>
+        <label for="fCpm">CPM (price per 1,000 impressions)</label>
+        <input id="fCpm" type="number" min="0" step="0.01" placeholder="2.50">
+      </div>
+      <div>
+        <label for="fBudget">Total budget</label>
+        <input id="fBudget" type="number" min="0" step="0.01" placeholder="5000">
+      </div>
+      <div>
+        <label for="fStart">Start date</label>
+        <input id="fStart" type="date">
+      </div>
+      <div>
+        <label for="fEnd">End date (optional — enables pacing target)</label>
+        <input id="fEnd" type="date">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn primary" id="btnSaveDeal">Save deal</button>
+      <button class="btn" id="btnCancelDeal">Cancel</button>
+    </div>
+    <p class="hint">With an end date set, the burn bar shows a target marker: where spend should be today if the budget is spread evenly across the flight.</p>
+  </div>
+
+  <!-- update impressions form -->
+  <div class="panel hidden" id="impForm">
+    <h2 id="impTitle">Update impressions</h2>
+    <div class="grid">
+      <div>
+        <label for="iTotal">Total impressions delivered to date (from the site's analytics)</label>
+        <input id="iTotal" type="number" min="0" step="1" placeholder="e.g. 1250000">
+      </div>
+      <div>
+        <label for="iDate">As of date</label>
+        <input id="iDate" type="date">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn primary" id="btnSaveImp">Save update</button>
+      <button class="btn" id="btnCancelImp">Cancel</button>
+    </div>
+    <p class="hint">Enter the cumulative total shown in the analytics dashboard, not the daily figure. Spend is calculated as impressions ÷ 1,000 × CPM.</p>
+  </div>
+
+  <div id="deals"></div>
+
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const STORE_KEY = 'placement-desk-deals-v1';
+  let deals = [];
+  let editingId = null;   // deal being edited in dealForm
+  let impDealId = null;   // deal being updated in impForm
+
+  const $ = id => document.getElementById(id);
+  const dealsEl = $('deals'), totalsEl = $('totals');
+
+  /* ---------- storage ---------- */
+  async function load(){
+    try{
+      const res = await window.storage.get(STORE_KEY);
+      if(res && res.value) deals = JSON.parse(res.value);
+    }catch(e){ deals = []; } // key doesn't exist yet — fresh start
+    render();
+  }
+  async function persist(){
+    try{
+      await window.storage.set(STORE_KEY, JSON.stringify(deals));
+    }catch(e){
+      toast('Could not save — changes may be lost on refresh');
+    }
+  }
+
+  /* ---------- helpers ---------- */
+  const todayStr = () => new Date().toISOString().slice(0,10);
+  const dayMs = 86400000;
+  function daysBetween(a,b){ return Math.round((new Date(b) - new Date(a)) / dayMs); }
+  function fmtMoney(v,cur){
+    return cur + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+  }
+  function fmtInt(v){ return Math.round(v).toLocaleString('en-US'); }
+  function fmtDate(d){
+    if(!d) return '—';
+    return new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  }
+  function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function toast(msg){
+    const t = $('toast'); t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._h); t._h = setTimeout(()=>t.classList.remove('show'), 2600);
+  }
+
+  /* ---------- deal math ---------- */
+  function computed(d){
+    const hist = (d.history||[]).slice().sort((a,b)=>a.date.localeCompare(b.date));
+    const latest = hist[hist.length-1] || null;
+    const imps = latest ? latest.total : 0;
+    const spend = imps/1000 * d.cpm;
+    const remaining = d.budget - spend;
+    const asOf = latest ? latest.date : todayStr();
+    const daysRun = Math.max(1, daysBetween(d.start, asOf) + 1);
+    const dailySpend = spend / daysRun;
+    const dailyImps = imps / daysRun;
+    let depleteDate = null;
+    if(dailySpend > 0 && remaining > 0){
+      const daysLeft = remaining / dailySpend;
+      depleteDate = new Date(new Date(asOf).getTime() + daysLeft*dayMs).toISOString().slice(0,10);
+    }
+    // pacing: expected spend today if budget spread evenly across flight
+    let pace = null;
+    if(d.end){
+      const flight = Math.max(1, daysBetween(d.start, d.end) + 1);
+      const elapsed = Math.min(flight, Math.max(0, daysBetween(d.start, todayStr()) + 1));
+      const expected = d.budget * (elapsed / flight);
+      pace = { flight, elapsed, expected, ratio: expected > 0 ? spend/expected : 0 };
+    }
+    return {hist, latest, imps, spend, remaining, daysRun, dailySpend, dailyImps, depleteDate, pace, asOf};
+  }
+
+  function statusOf(d,c){
+    if(!c.latest) return {cls:'neutral', txt:'No data yet'};
+    if(c.remaining <= 0) return {cls:'bad', txt:'Budget spent'};
+    if(c.pace){
+      if(new Date(todayStr()) > new Date(d.end)) return {cls:'warn', txt:'Flight ended — budget left'};
+      if(c.pace.ratio > 1.15) return {cls:'bad', txt:'Overpacing'};
+      if(c.pace.ratio < 0.85) return {cls:'warn', txt:'Underpacing'};
+      return {cls:'good', txt:'On track'};
+    }
+    if(c.depleteDate){
+      const left = daysBetween(todayStr(), c.depleteDate);
+      if(left <= 7) return {cls:'warn', txt:'Depletes in ' + left + 'd'};
+    }
+    return {cls:'good', txt:'Running'};
+  }
+
+  /* ---------- render ---------- */
+  function render(){
+    renderTotals();
+    if(!deals.length){
+      dealsEl.innerHTML = '<div class="empty"><strong>No deals yet</strong>Add your first placement deal to start tracking spend and pacing.</div>';
+      return;
+    }
+    dealsEl.innerHTML = deals.map(d => {
+      const c = computed(d);
+      const st = statusOf(d,c);
+      const pct = d.budget > 0 ? Math.min(100, c.spend/d.budget*100) : 0;
+      const over = c.spend > d.budget;
+      const paceMark = c.pace ? Math.min(100, c.pace.expected/d.budget*100) : null;
+      const histRows = c.hist.slice(-6).reverse().map((h,idx,arr)=>{
+        const prev = c.hist[c.hist.length-1 - (arr.length-1-idx) - 1];
+        const delta = prev ? h.total - prev.total : h.total;
+        const days = prev ? Math.max(1, daysBetween(prev.date, h.date)) : 1;
+        return '<tr><td>'+fmtDate(h.date)+'</td><td>'+fmtInt(h.total)+'</td><td>+'+fmtInt(delta)+'</td><td>'+fmtMoney(delta/1000*d.cpm/days, d.cur)+'/day</td></tr>';
+      }).join('');
+      return `
+      <div class="deal">
+        <div class="deal-top">
+          <div class="deal-name">${esc(d.name)}
+            ${d.url ? '<a href="'+esc(d.url)+'" target="_blank" rel="noopener">analytics ↗</a>' : ''}
+          </div>
+          <span class="badge ${st.cls}">${st.txt}</span>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><div class="k">CPM</div><div class="v">${fmtMoney(d.cpm,d.cur)}</div></div>
+          <div class="stat"><div class="k">Impressions</div><div class="v">${fmtInt(c.imps)}</div><div class="sub">${fmtInt(c.dailyImps)}/day avg</div></div>
+          <div class="stat"><div class="k">Spend</div><div class="v amber">${fmtMoney(c.spend,d.cur)}</div><div class="sub">${fmtMoney(c.dailySpend,d.cur)}/day avg</div></div>
+          <div class="stat"><div class="k">Remaining</div><div class="v">${fmtMoney(c.remaining,d.cur)}</div><div class="sub">of ${fmtMoney(d.budget,d.cur)}</div></div>
+          <div class="stat"><div class="k">Started</div><div class="v" style="font-size:14px">${fmtDate(d.start)}</div><div class="sub">${c.daysRun} days run</div></div>
+          <div class="stat"><div class="k">${d.end ? 'Ends' : 'Budget depletes'}</div><div class="v" style="font-size:14px">${d.end ? fmtDate(d.end) : fmtDate(c.depleteDate)}</div>${!d.end && c.depleteDate ? '<div class="sub">at current rate</div>' : (d.end && c.depleteDate ? '<div class="sub">depletes '+fmtDate(c.depleteDate)+'</div>' : '')}</div>
+        </div>
+
+        <div class="burn">
+          <div class="burn-track">
+            <div class="burn-fill ${over?'over':''}" style="width:${pct}%"></div>
+            ${paceMark !== null ? '<div class="pace-mark" style="left:'+paceMark+'%"></div>' : ''}
+          </div>
+          <div class="burn-legend"><span>${pct.toFixed(1)}% of budget used</span><span>${fmtMoney(d.budget,d.cur)}</span></div>
+        </div>
+
+        ${c.hist.length ? `<details class="history"><summary>Impression updates (${c.hist.length})</summary>
+          <table><thead><tr><th>As of</th><th>Total imps</th><th>Delta</th><th>Rate</th></tr></thead>
+          <tbody>${histRows}</tbody></table></details>` : ''}
+
+        <div class="deal-foot" style="margin-top:14px">
+          <span class="updated">${c.latest ? 'Last updated ' + fmtDate(c.latest.date) : 'No impression data yet — click "Update impressions"'}</span>
+          <div class="deal-actions">
+            <button class="btn small primary" data-act="imp" data-id="${d.id}">Update impressions</button>
+            <button class="btn small" data-act="edit" data-id="${d.id}">Edit</button>
+            <button class="btn small danger" data-act="del" data-id="${d.id}">Delete</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderTotals(){
+    let budget=0, spend=0, active=0;
+    const curs = new Set(deals.map(d=>d.cur));
+    const oneCur = curs.size === 1 ? deals[0].cur : '';
+    deals.forEach(d=>{
+      const c = computed(d);
+      budget += d.budget; spend += c.spend;
+      if(c.remaining > 0) active++;
+    });
+    const money = v => curs.size <= 1 ? fmtMoney(v, oneCur || '€') : '≈' + v.toLocaleString('en-US',{maximumFractionDigits:0});
+    totalsEl.innerHTML = `
+      <div><div class="lbl">Deals</div><div class="val">${deals.length}</div></div>
+      <div><div class="lbl">Active</div><div class="val">${active}</div></div>
+      <div><div class="lbl">Total budget</div><div class="val">${money(budget)}</div></div>
+      <div><div class="lbl">Total spend</div><div class="val amber">${money(spend)}</div></div>
+      <div><div class="lbl">Remaining</div><div class="val">${money(budget-spend)}</div></div>`;
+    if(curs.size > 1) totalsEl.title = 'Totals mix currencies — treat as indicative';
+  }
+
+  /* ---------- deal form ---------- */
+  function openDealForm(deal){
+    editingId = deal ? deal.id : null;
+    $('formTitle').textContent = deal ? 'Edit deal — ' + deal.name : 'New deal';
+    $('fName').value = deal ? deal.name : '';
+    $('fUrl').value = deal ? (deal.url||'') : '';
+    $('fCur').value = deal ? deal.cur : '€';
+    $('fCpm').value = deal ? deal.cpm : '';
+    $('fBudget').value = deal ? deal.budget : '';
+    $('fStart').value = deal ? deal.start : todayStr();
+    $('fEnd').value = deal ? (deal.end||'') : '';
+    $('impForm').classList.add('hidden');
+    $('dealForm').classList.remove('hidden');
+    $('fName').focus();
+    $('dealForm').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  $('btnAdd').addEventListener('click', ()=>openDealForm(null));
+  $('btnCancelDeal').addEventListener('click', ()=>{ $('dealForm').classList.add('hidden'); editingId=null; });
+
+  $('btnSaveDeal').addEventListener('click', async ()=>{
+    const name = $('fName').value.trim();
+    const cpm = parseFloat($('fCpm').value);
+    const budget = parseFloat($('fBudget').value);
+    const start = $('fStart').value;
+    if(!name){ toast('Site name is required'); return; }
+    if(!(cpm > 0)){ toast('Enter a CPM above 0'); return; }
+    if(!(budget > 0)){ toast('Enter a budget above 0'); return; }
+    if(!start){ toast('Pick a start date'); return; }
+    const end = $('fEnd').value || null;
+    if(end && end < start){ toast('End date is before start date'); return; }
+    const data = {
+      name, cpm, budget, start, end,
+      url: $('fUrl').value.trim() || null,
+      cur: $('fCur').value
+    };
+    if(editingId){
+      const d = deals.find(x=>x.id===editingId);
+      Object.assign(d, data);
+      toast('Deal updated');
+    }else{
+      deals.push(Object.assign({id:'d'+Date.now(), history:[]}, data));
+      toast('Deal added');
+    }
+    $('dealForm').classList.add('hidden'); editingId=null;
+    await persist(); render();
+  });
+
+  /* ---------- impressions form ---------- */
+  function openImpForm(deal){
+    impDealId = deal.id;
+    $('impTitle').textContent = 'Update impressions — ' + deal.name;
+    $('iTotal').value = '';
+    $('iDate').value = todayStr();
+    $('dealForm').classList.add('hidden');
+    $('impForm').classList.remove('hidden');
+    $('iTotal').focus();
+    $('impForm').scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  $('btnCancelImp').addEventListener('click', ()=>{ $('impForm').classList.add('hidden'); impDealId=null; });
+
+  $('btnSaveImp').addEventListener('click', async ()=>{
+    const d = deals.find(x=>x.id===impDealId);
+    if(!d) return;
+    const total = parseFloat($('iTotal').value);
+    const date = $('iDate').value;
+    if(!(total >= 0)){ toast('Enter the total impressions'); return; }
+    if(!date){ toast('Pick a date'); return; }
+    if(date < d.start){ toast('Date is before the deal start date'); return; }
+    d.history = d.history || [];
+    const existing = d.history.find(h=>h.date===date);
+    if(existing) existing.total = total;
+    else d.history.push({date, total});
+    $('impForm').classList.add('hidden'); impDealId=null;
+    await persist(); render();
+    toast('Impressions saved');
+  });
+
+  /* ---------- card actions ---------- */
+  dealsEl.addEventListener('click', async e=>{
+    const btn = e.target.closest('button[data-act]');
+    if(!btn) return;
+    const d = deals.find(x=>x.id===btn.dataset.id);
+    if(!d) return;
+    if(btn.dataset.act==='imp') openImpForm(d);
+    if(btn.dataset.act==='edit') openDealForm(d);
+    if(btn.dataset.act==='del'){
+      if(confirm('Delete the deal for "'+d.name+'"? This removes its history too.')){
+        deals = deals.filter(x=>x.id!==d.id);
+        await persist(); render();
+        toast('Deal deleted');
+      }
+    }
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
